@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crash Analyzer</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: #f5f7ff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+header {
+  padding: 20px 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.subtitle {
+  color: #9ca8c7;
+  margin-top: 8px;
+}
+
+.card {
+  background: #121a2d;
+  border: 1px solid #26314d;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 16px 0;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background: #0d1425;
+  border: 1px solid #33405f;
+  border-radius: 10px;
+  color: white;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  background: #0d1425;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.stat-label {
+  color: #8f9ab8;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #26314d;
+}
+
+th {
+  color: #9eabc9;
+  font-size: 13px;
+}
+
+.note {
+  color: #aeb9d4;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.warning {
+  background: #251d0b;
+  border: 1px solid #65511a;
+  color: #e6d28a;
+  padding: 14px;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+.bar {
+  margin: 10px 0;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.bar-bg {
+  height: 10px;
+  background: #202b45;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #6d8cff;
+}
+
+canvas {
+  width: 100%;
+  max-height: 350px;
+  background: #0d1425;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  th, td {
+    font-size: 12px;
+    padding: 8px 5px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>Crash Analyzer</h1>
+  <div class="subtitle">Analyse historique des résultats Crash</div>
+</header>
+
+<div class="card">
+  <h2>01 / IMPORT DES DONNÉES</h2>
+
+  <p class="note">
+    Importez un fichier CSV contenant les colonnes :
+    time, players, totalBets, multiplier
+  </p>
+
+  <input type="file" id="csvFile" accept=".csv">
+</div>
+
+<div class="card">
+  <h2>02 / SNAPSHOT</h2>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Tours</div>
+      <div class="stat-value" id="rounds">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Moyenne</div>
+      <div class="stat-value" id="mean">0x</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Médiane</div>
+      <div class="stat-value" id="median">0x</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Minimum</div>
+      <div class="stat-value" id="min">0x</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Maximum</div>
+      <div class="stat-value" id="max">0x</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Écart-type</div>
+      <div class="stat-value" id="std">0x</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <h2>03 / DISTRIBUTION HISTORIQUE</h2>
+
+  <div id="distribution"></div>
+</div>
+
+<div class="card">
+  <h2>04 / TENDANCE RÉCENTE</h2>
+
+  <p class="note">
+    Les moyennes mobiles décrivent uniquement les observations passées.
+  </p>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Moyenne 5 derniers</div>
+      <div class="stat-value" id="ma5">—</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Moyenne 10 derniers</div>
+      <div class="stat-value" id="ma10">—</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Moyenne 20 derniers</div>
+      <div class="stat-value" id="ma20">—</div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <canvas id="chart" width="900" height="350"></canvas>
+</div>
+
+<div class="card">
+  <h2>05 / SÉQUENCES OBSERVÉES</h2>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Tours consécutifs &lt; 2x</div>
+      <div class="stat-value" id="lowCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Plus longue séquence &lt; 2x</div>
+      <div class="stat-value" id="lowLongest">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Tours consécutifs ≥ 5x</div>
+      <div class="stat-value" id="highCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Plus longue séquence ≥ 5x</div>
+      <div class="stat-value" id="highLongest">0</div>
+    </div>
+
+  </div>
+
+  <p class="note">
+    Ces statistiques décrivent uniquement les tours historiques fournis.
+    Elles ne permettent pas de prédire le prochain résultat.
+  </p>
+</div>
+
+<div class="card">
+  <h2>06 / MODEL COMPARISON</h2>
+
+  <div class="warning">
+    Validation exploratoire : les performances des modèles sont calculées
+    sur des observations historiques hors échantillon. Avec un petit nombre
+    de données, ces métriques restent incertaines et ne constituent pas
+    une prédiction garantie du prochain résultat.
+  </div>
+
+  <br>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Modèle</th>
+        <th>MAE</th>
+        <th>RMSE</th>
+        <th>R²</th>
+        <th>Tests</th>
+      </tr>
+    </thead>
+
+    <tbody id="modelTable">
+      <tr>
+        <td colspan="5">Importez un CSV pour lancer l'analyse.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>07 / AVERTISSEMENT</h2>
+
+  <p class="note">
+    Crash Analyzer est un outil d'analyse statistique historique.
+    Les résultats de Crash sont aléatoires. Aucun modèle statistique
+    ne peut garantir ou déterminer avec certitude le prochain résultat.
+  </p>
+</div>
+
+</div>
+
+<script>
+
+let data = [];
+
+/* -------------------------
+   OUTILS STATISTIQUES
+------------------------- */
+
+function mean(values) {
+  if (!values.length) return 0;
+  return values.reduce((a,b) => a+b,0) / values.length;
+}
+
+function median(values) {
+
+  if (!values.length) return 0;
+
+  const sorted = [...values].sort((a,b) => a-b);
+
+  const middle = Math.floor(sorted.length / 2);
+
+  if (sorted.length % 2) {
+    return sorted[middle];
+  }
+
+  return (sorted[middle-1] + sorted[middle]) / 2;
+}
+
+function standardDeviation(values) {
+
+  if (values.length < 2) return 0;
+
+  const m = mean(values);
+
+  const variance =
+    values.reduce((sum,x) => sum + Math.pow(x-m,2),0)
+    / values.length;
+
+  return Math.sqrt(variance);
+}
+
+function formatX(value) {
+  return Number(value).toFixed(2) + "x";
+}
+
+/* -------------------------
+   CSV
+------------------------- */
+
+function parseCSV(text) {
+
+  const lines = text
+    .trim()
+    .split(/\r?\n/)
+    .filter(line => line.trim());
+
+  if (lines.length < 2) return [];
+
+  const headers = lines[0]
+    .split(",")
+    .map(x => x.trim());
+
+  const timeIndex = headers.indexOf("time");
+  const playersIndex = headers.indexOf("players");
+  const betsIndex = headers.indexOf("totalBets");
+  const multiplierIndex = headers.indexOf("multiplier");
+
+  if (
+    timeIndex === -1 ||
+    playersIndex === -1 ||
+    betsIndex === -1 ||
+    multiplierIndex === -1
+  ) {
+    alert(
+      "CSV invalide. Les colonnes nécessaires sont : time, players, totalBets, multiplier"
+    );
+
+    return [];
+  }
+
+  return lines.slice(1).map(line => {
+
+    const cols = line.split(",");
+
+    return {
+      time: cols[timeIndex],
+      players: Number(cols[playersIndex]),
+      totalBets: Number(cols[betsIndex]),
+      multiplier: Number(cols[multiplierIndex])
+    };
+
+  }).filter(row => Number.isFinite(row.multiplier));
+}
+
+/* -------------------------
+   SNAPSHOT
+------------------------- */
+
+function updateSnapshot(values) {
+
+  document.getElementById("rounds").textContent = values.length;
+
+  document.getElementById("mean").textContent =
+    formatX(mean(values));
+
+  document.getElementById("median").textContent =
+    formatX(median(values));
+
+  document.getElementById("min").textContent =
+    formatX(Math.min(...values));
+
+  document.getElementById("max").textContent =
+    formatX(Math.max(...values));
+
+  document.getElementById("std").textContent =
+    formatX(standardDeviation(values));
+}
+
+/* -------------------------
+   DISTRIBUTION
+------------------------- */
+
+function updateDistribution(values) {
+
+  const groups = [
+    {label:"1.00–1.99x", min:1, max:1.99},
+    {label:"2.00–2.99x", min:2, max:2.99},
+    {label:"3.00–4.99x", min:3, max:4.99},
+    {label:"5.00–9.99x", min:5, max:9.99},
+    {label:"10.00x+", min:10, max:Infinity}
+  ];
+
+  let html = "";
+
+  groups.forEach(group => {
+
+    const count = values.filter(
+      x => x >= group.min && x <= group.max
+    ).length;
+
+    const percentage =
+      values.length ? (count / values.length) * 100 : 0;
+
+    html += `
+      <div class="bar">
+
+        <div class="bar-label">
+          <span>${group.label}</span>
+          <span>${count} tours — ${percentage.toFixed(1)}%</span>
+        </div>
+
+        <div class="bar-bg">
+          <div
+            class="bar-fill"
+            style="width:${percentage}%">
+          </div>
+        </div>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("distribution").innerHTML = html;
+}
+
+/* -------------------------
+   MOYENNES MOBILES
+------------------------- */
+
+function movingAverage(values, period) {
+
+  if (values.length < period) return null;
+
+  return mean(values.slice(-period));
+}
+
+function updateMovingAverages(values) {
+
+  const m5 = movingAverage(values,5);
+  const m10 = movingAverage(values,10);
+  const m20 = movingAverage(values,20);
+
+  document.getElementById("ma5").textContent =
+    m5 === null ? "—" : formatX(m5);
+
+  document.getElementById("ma10").textContent =
+    m10 === null ? "—" : formatX(m10);
+
+  document.getElementById("ma20").textContent =
+    m20 === null ? "—" : formatX(m20);
+}
+
+/* -------------------------
+   SÉQUENCES
+------------------------- */
+
+function sequenceStats(values, condition) {
+
+  let current = 0;
+  let longest = 0;
+  let total = 0;
+
+  values.forEach(value => {
+
+    if (condition(value)) {
+
+      current++;
+      total++;
+
+      if (current > longest) {
+        longest = current;
+      }
+
+    } else {
+
+      current = 0;
+
+    }
+
+  });
+
+  return {
+    total,
+    longest
+  };
+}
+
+function updateSequences(values) {
+
+  const low = sequenceStats(values, x => x < 2);
+
+  const high = sequenceStats(values, x => x >= 5);
+
+  document.getElementById("lowCount").textContent =
+    low.total;
+
+  document.getElementById("lowLongest").textContent =
+    low.longest;
+
+  document.getElementById("highCount").textContent =
+    high.total;
+
+  document.getElementById("highLongest").textContent =
+    high.longest;
+}
+
+/* -------------------------
+   GRAPHIQUE
+------------------------- */
+
+function drawChart(values) {
+
+  const canvas = document.getElementById("chart");
+  const ctx = canvas.getContext("2d");
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0,0,width,height);
+
+  if (!values.length) return;
+
+  const recent = values.slice(-20);
+
+  const maxValue = Math.max(...recent);
+
+  const padding = 40;
+
+  const graphWidth = width - padding * 2;
+  const graphHeight = height - padding * 2;
+
+  ctx.beginPath();
+
+  recent.forEach((value,index) => {
+
+    const x =
+      padding +
+      (index / Math.max(recent.length-1,1))
+      * graphWidth;
+
+    const y =
+      height -
+      padding -
+      (value / maxValue)
+      * graphHeight;
+
+    if (index === 0) {
+      ctx.moveTo(x,y);
+    } else {
+      ctx.lineTo(x,y);
+    }
+
+  });
+
+  ctx.stroke();
+
+  ctx.font = "12px Arial";
+  ctx.fillText(
+    "20 derniers multiplicateurs",
+    padding,
+    20
+  );
+}
+
+/* -------------------------
+   MODEL COMPARISON
+------------------------- */
+
+function calculateModels(values) {
+
+  const table = document.getElementById("modelTable");
+
+  /*
+    Version initiale :
+    on prépare la structure du tableau.
+    Les vrais modèles walk-forward seront ajoutés
+    dans une prochaine étape.
+  */
+
+  if (values.length < 10) {
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="5">
+          Pas assez de données pour une validation exploratoire.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  const tests = Math.max(0, values.length - 10);
+
+  const models = [
+    "Linear Regression",
+    "Decision Tree",
+    "Random Forest",
+    "Neural Network"
+  ];
+
+  table.innerHTML = models.map(model => `
+    <tr>
+      <td>${model}</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>${tests}</td>
+    </tr>
+  `).join("");
+}
+
+/* -------------------------
+   ANALYSE GÉNÉRALE
+------------------------- */
+
+function analyze() {
+
+  const values = data.map(row => row.multiplier);
+
+  if (!values.length) return;
+
+  updateSnapshot(values);
+  updateDistribution(values);
+  updateMovingAverages(values);
+  updateSequences(values);
+  drawChart(values);
+  calculateModels(values);
+}
+
+/* -------------------------
+   IMPORT CSV
+------------------------- */
+
+document.getElementById("csvFile")
+.addEventListener("change", function(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    try {
+
+      const parsed = parseCSV(e.target.result);
+
+      if (!parsed.length) {
+        alert("Aucune donnée valide trouvée dans le CSV.");
+        return;
+      }
+
+      data = parsed;
+
+      analyze();
+
+    } catch(error) {
+
+      alert(
+        "Erreur lors de la lecture du fichier CSV."
+      );
+
+      console.error(error);
+    }
+
+  };
+
+  reader.readAsText(file);
+
+});
+
+</script>
+
+</body>
+</html>
