@@ -2,140 +2,158 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Crash Analyzer</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#0b1020;
-  color:#f4f6fb;
+margin:0;
+font-family:Arial,sans-serif;
+background:#080d18;
+color:#f5f7fb
 }
 .container{
-  max-width:1100px;
-  margin:auto;
-  padding:18px;
+max-width:1100px;
+margin:auto;
+padding:18px
 }
-h1{margin-bottom:5px}
+header{
+background:linear-gradient(135deg,#151f3a,#0e1629);
+padding:22px;
+border-radius:18px;
+margin-bottom:18px
+}
+h1{margin:0 0 6px;font-size:30px}
 h2{margin-top:30px}
-.subtitle{color:#aab3c5}
-
+.subtitle{color:#aeb8ca}
 .warning{
-  background:#2b2110;
-  border:1px solid #80601c;
-  padding:14px;
-  border-radius:12px;
-  margin:18px 0;
-  line-height:1.5;
+background:#2b2110;
+border:1px solid #80601c;
+padding:14px;
+border-radius:13px;
+line-height:1.5;
+margin:15px 0
 }
-
+.info{
+background:#111a2d;
+border:1px solid #263552;
+padding:14px;
+border-radius:13px;
+line-height:1.5
+}
 .cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
-  gap:12px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+gap:12px
 }
 .card{
-  background:#151c31;
-  padding:15px;
-  border-radius:14px;
+background:#121a2b;
+padding:16px;
+border-radius:14px;
+border:1px solid #202d48
 }
-.card small{color:#9da8bd}
+.card small{
+color:#9da9bd
+}
 .value{
-  font-size:23px;
-  font-weight:bold;
-  margin-top:7px;
+font-size:24px;
+font-weight:bold;
+margin-top:7px
 }
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:#151c31;
-  border-radius:12px;
-  overflow:hidden;
-}
-th,td{
-  padding:9px;
-  border-bottom:1px solid #29324a;
-  text-align:left;
-  font-size:13px;
-}
-th{color:#aeb9cc}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-button{
-  background:#4f7cff;
-  color:white;
-  border:0;
-  padding:11px 15px;
-  border-radius:9px;
-  cursor:pointer;
-  font-weight:bold;
-}
-button:hover{opacity:.9}
-
-input[type=file]{
-  width:100%;
-  margin:10px 0;
-  padding:10px;
-  background:#151c31;
-  border-radius:9px;
-  color:white;
-}
-
-.chart-box{
-  background:#151c31;
-  padding:12px;
-  border-radius:14px;
-  overflow:hidden;
-}
-canvas{
-  width:100%;
-  max-width:100%;
-  height:300px;
-}
-
-.model{
-  background:#151c31;
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:12px;
-}
-.model-title{
-  font-size:18px;
-  font-weight:bold;
-}
-.metrics{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-  gap:8px;
-  margin-top:12px;
-}
-.metric{
-  background:#0d1426;
-  padding:10px;
-  border-radius:9px;
-}
-.metric small{
-  color:#98a5bb;
-  display:block;
-}
-.metric strong{
-  font-size:17px;
-}
-
+.muted{color:#99a6ba}
 .good{color:#6ee7a0}
 .bad{color:#ff9c9c}
-.muted{color:#9da8bd}
-
+button{
+border:0;
+border-radius:10px;
+padding:12px 16px;
+background:#4d7cff;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:8px
+}
+button.secondary{
+background:#27344f
+}
+input[type=file]{
+width:100%;
+padding:12px;
+margin:10px 0;
+background:#121a2b;
+color:white;
+border:1px solid #293754;
+border-radius:10px
+}
+.chart{
+background:#121a2b;
+border:1px solid #202d48;
+padding:12px;
+border-radius:14px;
+overflow:hidden
+}
+canvas{
+width:100%;
+height:320px
+}
+.model{
+background:#121a2b;
+border:1px solid #202d48;
+border-radius:14px;
+padding:16px;
+margin:12px 0
+}
+.model-title{
+font-size:19px;
+font-weight:bold
+}
+.metrics{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+gap:8px;
+margin-top:12px
+}
+.metric{
+background:#0b1220;
+padding:11px;
+border-radius:9px
+}
+.metric small{
+display:block;
+color:#8f9db3
+}
+.metric strong{
+font-size:17px
+}
+.table-wrap{
+overflow-x:auto;
+border-radius:12px
+}
+table{
+width:100%;
+border-collapse:collapse;
+background:#121a2b
+}
+th,td{
+padding:10px;
+border-bottom:1px solid #26324a;
+text-align:left;
+white-space:nowrap;
+font-size:13px
+}
+th{color:#aeb9cd}
+.status{
+padding:10px;
+border-radius:10px;
+background:#111a2d;
+margin-top:10px;
+color:#b9c4d6
+}
 .footer{
-  color:#7f8aa0;
-  margin:35px 0 10px;
-  font-size:13px;
+margin:35px 0 10px;
+font-size:13px;
+color:#77849a
 }
 </style>
 </head>
@@ -144,59 +162,77 @@ canvas{
 
 <div class="container">
 
+<header>
 <h1>📊 Crash Analyzer</h1>
 <div class="subtitle">
 Analyse statistique historique des données Crash
 </div>
+</header>
 
 <div class="warning">
-<strong>⚠️ Avertissement</strong><br>
+<strong>⚠️ Important</strong><br>
 Cet outil analyse uniquement les données historiques fournies.
 Les résultats d'un jeu Crash peuvent être aléatoires.
-Aucune analyse de cet outil ne peut garantir ou déterminer avec
-certitude le prochain résultat.
+Aucune analyse de cet outil ne peut garantir ou déterminer
+avec certitude le prochain résultat.
 </div>
 
-<h2>📈 Vue d'ensemble</h2>
+<h2>01 · Données</h2>
+
+<div class="info">
+<strong>Données actuellement chargées :</strong>
+<span id="dataCount">43</span> tours.
+<br><br>
+Pour ajouter un nouveau jeu de données, utilise un fichier CSV
+avec les colonnes :
+<code>time,players,totalBets,multiplier</code>
+</div>
+
+<input id="csvFile" type="file" accept=".csv">
+
+<button onclick="resetData()" class="secondary">
+Réinitialiser les 43 données originales
+</button>
+
+<div id="status" class="status">
+Données historiques intégrées.
+</div>
+
+<h2>02 · Vue d'ensemble</h2>
 <div id="stats" class="cards"></div>
 
-<h2>📊 Distribution des multiplicateurs</h2>
+<h2>03 · Distribution historique</h2>
 <div id="distribution" class="cards"></div>
 
-<h2>🔄 Tendances récentes</h2>
+<h2>04 · Tendances récentes</h2>
 <div id="trends" class="cards"></div>
 
-<h2>📉 Multiplicateurs récents</h2>
-<div class="chart-box">
+<div class="info">
+Les tendances décrivent uniquement les observations passées.
+Elles ne constituent pas une prédiction du prochain résultat.
+</div>
+
+<h2>05 · Multiplicateurs récents</h2>
+
+<div class="chart">
 <canvas id="chart"></canvas>
 </div>
 
-<h2>🧠 Comparaison des modèles</h2>
+<h2>06 · Comparaison des modèles</h2>
 
 <div class="warning">
-Les modèles utilisent uniquement les observations disponibles
-avant chaque test (« walk-forward »). Les variables historiques
-comprennent notamment les multiplicateurs précédents, les moyennes
-mobiles, la médiane, la volatilité, les joueurs et les mises.
+Les modèles sont évalués chronologiquement : pour chaque test,
+seules les observations précédentes sont utilisées.
 <br><br>
-<strong>Attention :</strong> seulement 43 observations sont disponibles.
-Les métriques peuvent donc être très instables et ne constituent
-pas une preuve de capacité prédictive.
+Avec seulement quelques dizaines d'observations, les métriques
+restent très incertaines. Elles servent à étudier les données
+historiques et non à garantir un résultat futur.
 </div>
 
 <div id="models"></div>
 
-<h2>📥 Importer un CSV</h2>
+<h2>07 · Historique complet</h2>
 
-<p class="muted">
-Format attendu :
-<code>time,players,totalBets,multiplier</code>
-</p>
-
-<input id="csvFile" type="file" accept=".csv">
-<button onclick="resetData()">Réinitialiser les 43 données originales</button>
-
-<h2>📋 Historique complet</h2>
 <div class="table-wrap">
 <table>
 <thead>
@@ -212,9 +248,19 @@ Format attendu :
 </table>
 </div>
 
+<h2>08 · Avertissement</h2>
+
+<div class="warning">
+Crash Analyzer est un outil statistique expérimental.
+Il ne connaît pas le mécanisme interne du jeu et ne peut pas
+connaître à l'avance le résultat d'un tour.
+<br><br>
+Les statistiques présentées décrivent uniquement les données
+qui ont été fournies à l'application.
+</div>
+
 <div class="footer">
-Crash Analyzer — outil statistique expérimental.
-Les données sont analysées dans votre navigateur.
+Crash Analyzer · Analyse effectuée localement dans le navigateur.
 </div>
 
 </div>
@@ -222,13 +268,13 @@ Les données sont analysées dans votre navigateur.
 <script>
 
 /* =========================================================
-   DONNÉES HISTORIQUES
-   L'ordre des lignes est conservé comme ordre chronologique.
+   43 DONNÉES ORIGINALES
+   L'ordre fourni est conservé.
    ========================================================= */
 
-const DEFAULT_DATA = [
+const DEFAULT_DATA=[
 ["12:31",4860,285149.22,19.47],
-["12:32",5485,347475.08,8.5],
+["12:32",5485,347475.08,8.50],
 ["12:32",4889,279895.61,16.85],
 ["12:33",4722,264369.12,7.92],
 ["12:33",4631,261669.26,2.19],
@@ -239,7 +285,6 @@ const DEFAULT_DATA = [
 ["12:35",4403,240094.04,2.17],
 ["12:36",3925,190591.12,2.37],
 ["12:36",5239,190591.12,1.00],
-
 ["04:08",5184,357567.09,1.17],
 ["04:09",5318,396546.91,24.11],
 ["04:10",6411,396561.83,29.02],
@@ -273,799 +318,732 @@ const DEFAULT_DATA = [
 ["04:20",6282,392739.77,1.52]
 ];
 
-let data = DEFAULT_DATA.map(x => ({
-  time:x[0],
-  players:Number(x[1]),
-  totalBets:Number(x[2]),
-  multiplier:Number(x[3])
+let data=DEFAULT_DATA.map(x=>({
+time:x[0],
+players:Number(x[1]),
+totalBets:Number(x[2]),
+multiplier:Number(x[3])
 }));
 
 /* =========================================================
-   OUTILS STATISTIQUES
+   STATISTIQUES
    ========================================================= */
 
-function mean(arr){
-  if(!arr.length) return 0;
-  return arr.reduce((a,b)=>a+b,0)/arr.length;
+function mean(a){
+return a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
 }
 
-function median(arr){
-  if(!arr.length) return 0;
-  const x=[...arr].sort((a,b)=>a-b);
-  const m=Math.floor(x.length/2);
-  return x.length%2 ? x[m] : (x[m-1]+x[m])/2;
+function median(a){
+if(!a.length)return 0;
+const x=[...a].sort((a,b)=>a-b);
+const m=Math.floor(x.length/2);
+return x.length%2?x[m]:(x[m-1]+x[m])/2;
 }
 
-function std(arr){
-  if(arr.length<2) return 0;
-  const m=mean(arr);
-  return Math.sqrt(
-    arr.reduce((s,x)=>s+(x-m)**2,0)/(arr.length-1)
-  );
+function std(a){
+if(a.length<2)return 0;
+const m=mean(a);
+return Math.sqrt(
+a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1)
+);
 }
 
 function fmt(x,d=2){
-  return Number(x).toFixed(d);
+return Number(x).toFixed(d);
 }
 
 function money(x){
-  return Number(x).toLocaleString("fr-FR",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  })+" FCFA";
-}
-
-function clamp(x,min,max){
-  return Math.max(min,Math.min(max,x));
+return Number(x).toLocaleString("fr-FR",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+})+" FCFA";
 }
 
 /* =========================================================
    FEATURES HISTORIQUES
-   IMPORTANT :
-   chaque feature utilise uniquement les données précédentes.
    ========================================================= */
 
-function buildFeatures(rows,index){
+function features(rows,i){
 
-  if(index<5) return null;
+if(i<5)return null;
 
-  const previous = rows.slice(0,index);
+const previous=rows.slice(0,i);
+const multipliers=previous.map(r=>r.multiplier);
+const last5=multipliers.slice(-5);
 
-  const mult = previous.map(r=>r.multiplier);
-  const last5 = mult.slice(-5);
+const p1=previous[previous.length-1];
+const p2=previous[previous.length-2];
 
-  const lag1 = previous[previous.length-1];
-  const lag2 = previous[previous.length-2];
-
-  return [
-    lag1.multiplier,
-    lag2.multiplier,
-    mean(last5),
-    median(last5),
-    std(last5),
-
-    lag1.players,
-    lag2.players,
-
-    lag1.totalBets,
-    lag2.totalBets
-  ];
+return[
+p1.multiplier,
+p2.multiplier,
+mean(last5),
+median(last5),
+std(last5),
+p1.players,
+p2.players,
+p1.totalBets,
+p2.totalBets
+];
 }
 
 /* =========================================================
    NORMALISATION
    ========================================================= */
 
-function scalerFit(X){
+function fitScaler(X){
 
-  const n=X[0].length;
-  const means=[];
-  const scales=[];
+const n=X[0].length;
+const means=[];
+const scales=[];
 
-  for(let j=0;j<n;j++){
+for(let j=0;j<n;j++){
 
-    const col=X.map(r=>r[j]);
-    const m=mean(col);
-    const s=std(col);
+const col=X.map(r=>r[j]);
+means.push(mean(col));
+scales.push(std(col)||1);
 
-    means.push(m);
-    scales.push(s || 1);
-  }
-
-  return {means,scales};
 }
 
-function scalerTransform(X,scaler){
-
-  return X.map(row =>
-    row.map((v,j)=>
-      (v-scaler.means[j])/scaler.scales[j]
-    )
-  );
+return{means,scales};
 }
 
-function scalerOne(x,scaler){
+function scale(X,s){
 
-  return x.map((v,j)=>
-    (v-scaler.means[j])/scaler.scales[j]
-  );
+return X.map(row=>
+row.map((v,j)=>
+(v-s.means[j])/s.scales[j]
+)
+);
+}
+
+function scaleOne(x,s){
+
+return x.map((v,j)=>
+(v-s.means[j])/s.scales[j]
+);
 }
 
 /* =========================================================
-   MATRICE / REGRESSION LINEAIRE REGULARISEE
+   MATRICES
    ========================================================= */
 
 function transpose(A){
-  return A[0].map((_,i)=>A.map(row=>row[i]));
+return A[0].map((_,i)=>A.map(r=>r[i]));
 }
 
 function multiply(A,B){
 
-  const result=
-    Array.from({length:A.length},
-      ()=>Array(B[0].length).fill(0));
+const R=Array.from(
+{length:A.length},
+()=>Array(B[0].length).fill(0)
+);
 
-  for(let i=0;i<A.length;i++){
-    for(let j=0;j<B[0].length;j++){
-      for(let k=0;k<B.length;k++){
-        result[i][j]+=A[i][k]*B[k][j];
-      }
-    }
-  }
+for(let i=0;i<A.length;i++)
+for(let j=0;j<B[0].length;j++)
+for(let k=0;k<B.length;k++)
+R[i][j]+=A[i][k]*B[k][j];
 
-  return result;
+return R;
 }
 
 function inverse(A){
 
-  const n=A.length;
-  const M=A.map((row,i)=>[
-    ...row,
-    ...Array.from({length:n},(_,j)=>i===j?1:0)
-  ]);
+const n=A.length;
 
-  for(let i=0;i<n;i++){
+const M=A.map((r,i)=>[
+...r,
+...Array.from(
+{length:n},
+(_,j)=>i===j?1:0
+)
+]);
 
-    let pivot=i;
+for(let i=0;i<n;i++){
 
-    for(let r=i+1;r<n;r++){
-      if(Math.abs(M[r][i])>Math.abs(M[pivot][i]))
-        pivot=r;
-    }
+let p=i;
 
-    if(Math.abs(M[pivot][i])<1e-12)
-      return null;
+for(let r=i+1;r<n;r++)
+if(Math.abs(M[r][i])>Math.abs(M[p][i]))
+p=r;
 
-    [M[i],M[pivot]]=[M[pivot],M[i]];
+if(Math.abs(M[p][i])<1e-12)return null;
 
-    const p=M[i][i];
+[M[i],M[p]]=[M[p],M[i]];
 
-    for(let j=0;j<2*n;j++)
-      M[i][j]/=p;
+const v=M[i][i];
 
-    for(let r=0;r<n;r++){
+for(let j=0;j<2*n;j++)
+M[i][j]/=v;
 
-      if(r===i) continue;
+for(let r=0;r<n;r++){
 
-      const f=M[r][i];
+if(r===i)continue;
 
-      for(let j=0;j<2*n;j++)
-        M[r][j]-=f*M[i][j];
-    }
-  }
+const f=M[r][i];
 
-  return M.map(row=>row.slice(n));
+for(let j=0;j<2*n;j++)
+M[r][j]-=f*M[i][j];
+
 }
 
-function linearFit(X,y){
-
-  const scaler=scalerFit(X);
-  const Z=scalerTransform(X,scaler);
-
-  const A=Z.map(r=>[1,...r]);
-
-  const AT=transpose(A);
-  let ATA=multiply(AT,A);
-
-  /*
-    Petite régularisation numérique.
-    Elle évite les problèmes lorsque deux variables
-    historiques sont très corrélées.
-  */
-
-  for(let i=1;i<ATA.length;i++)
-    ATA[i][i]+=0.001;
-
-  const inv=inverse(ATA);
-
-  if(!inv) return null;
-
-  const yMat=y.map(v=>[v]);
-  const beta=multiply(
-    multiply(inv,AT),
-    yMat
-  ).map(r=>r[0]);
-
-  return {
-    scaler,
-    beta
-  };
 }
 
-function linearPredict(model,x){
-
-  const z=scalerOne(x,model.scaler);
-  let p=model.beta[0];
-
-  for(let i=0;i<z.length;i++)
-    p+=model.beta[i+1]*z[i];
-
-  return Math.max(1,p);
+return M.map(r=>r.slice(n));
 }
 
 /* =========================================================
-   ARBRE DE REGRESSION
+   RÉGRESSION LINÉAIRE
+   ========================================================= */
+
+function trainLinear(X,y){
+
+const scaler=fitScaler(X);
+const Z=scale(X,scaler);
+const A=Z.map(r=>[1,...r]);
+
+const AT=transpose(A);
+let ATA=multiply(AT,A);
+
+for(let i=1;i<ATA.length;i++)
+ATA[i][i]+=0.001;
+
+const inv=inverse(ATA);
+
+if(!inv)return null;
+
+const beta=multiply(
+multiply(inv,AT),
+y.map(v=>[v])
+).map(r=>r[0]);
+
+return{scaler,beta};
+}
+
+function predictLinear(model,x){
+
+const z=scaleOne(x,model.scaler);
+
+let p=model.beta[0];
+
+for(let i=0;i<z.length;i++)
+p+=model.beta[i+1]*z[i];
+
+return Math.max(1,p);
+}
+
+/* =========================================================
+   ARBRE
    ========================================================= */
 
 function treeMean(rows){
-
-  return mean(rows.map(r=>r.y));
+return mean(rows.map(r=>r.y));
 }
 
 function sse(rows){
 
-  const m=treeMean(rows);
+const m=treeMean(rows);
 
-  return rows.reduce(
-    (s,r)=>s+(r.y-m)**2,
-    0
-  );
+return rows.reduce(
+(s,r)=>s+(r.y-m)**2,
+0
+);
 }
 
-function bestSplit(rows,depth,maxDepth,minLeaf){
+function buildTree(rows,depth=0){
 
-  if(depth>=maxDepth || rows.length<minLeaf*2)
-    return {
-      type:"leaf",
-      value:treeMean(rows)
-    };
+if(depth>=3||rows.length<6)
+return{
+type:"leaf",
+value:treeMean(rows)
+};
 
-  let best=null;
+let best=null;
+const nf=rows[0].x.length;
 
-  const features=rows[0].x.length;
+for(let f=0;f<nf;f++){
 
-  for(let f=0;f<features;f++){
+const sorted=[...rows].sort(
+(a,b)=>a.x[f]-b.x[f]
+);
 
-    const sorted=[...rows].sort(
-      (a,b)=>a.x[f]-b.x[f]
-    );
+for(let i=3;i<=sorted.length-3;i++){
 
-    for(let i=minLeaf;i<=sorted.length-minLeaf;i++){
+const a=sorted[i-1].x[f];
+const b=sorted[i].x[f];
 
-      const a=sorted[i-1].x[f];
-      const b=sorted[i].x[f];
+if(a===b)continue;
 
-      if(a===b) continue;
+const threshold=(a+b)/2;
+const left=[];
+const right=[];
 
-      const threshold=(a+b)/2;
+for(const r of rows){
 
-      const left=[];
-      const right=[];
+if(r.x[f]<=threshold)
+left.push(r);
+else
+right.push(r);
 
-      for(const r of rows){
-
-        if(r.x[f]<=threshold)
-          left.push(r);
-        else
-          right.push(r);
-      }
-
-      if(left.length<minLeaf || right.length<minLeaf)
-        continue;
-
-      const score=sse(left)+sse(right);
-
-      if(!best || score<best.score){
-
-        best={
-          score,
-          feature:f,
-          threshold,
-          left,
-          right
-        };
-      }
-    }
-  }
-
-  if(!best)
-    return {
-      type:"leaf",
-      value:treeMean(rows)
-    };
-
-  return {
-    type:"node",
-    feature:best.feature,
-    threshold:best.threshold,
-    left:bestSplit(best.left,depth+1,maxDepth,minLeaf),
-    right:bestSplit(best.right,depth+1,maxDepth,minLeaf)
-  };
 }
 
-function treePredict(node,x){
+if(left.length<3||right.length<3)continue;
 
-  if(node.type==="leaf")
-    return node.value;
+const score=sse(left)+sse(right);
 
-  if(x[node.feature]<=node.threshold)
-    return treePredict(node.left,x);
+if(!best||score<best.score)
+best={f,threshold,left,right,score};
 
-  return treePredict(node.right,x);
+}
 }
 
-function trainTree(X,y){
+if(!best)
+return{
+type:"leaf",
+value:treeMean(rows)
+};
 
-  const rows=X.map((x,i)=>({x,y:y[i]}));
+return{
+type:"node",
+feature:best.f,
+threshold:best.threshold,
+left:buildTree(best.left,depth+1),
+right:buildTree(best.right,depth+1)
+};
+}
 
-  return bestSplit(
-    rows,
-    0,
-    3,
-    3
-  );
+function predictTree(node,x){
+
+if(node.type==="leaf")
+return node.value;
+
+return x[node.feature]<=node.threshold
+?predictTree(node.left,x)
+:predictTree(node.right,x);
 }
 
 /* =========================================================
-   RANDOM FOREST
+   FORÊT ALÉATOIRE
    ========================================================= */
 
-function randomSeed(seed){
+function rng(seed){
 
-  let s=seed>>>0;
+let s=seed>>>0;
 
-  return function(){
-
-    s=(s*1664525+1013904223)>>>0;
-
-    return s/4294967296;
-  };
+return()=>{
+s=(s*1664525+1013904223)>>>0;
+return s/4294967296;
+};
 }
 
 function trainForest(X,y){
 
-  const rng=randomSeed(X.length*7919+y.length*1237);
-  const trees=[];
+const random=rng(X.length*99991);
+const trees=[];
 
-  for(let t=0;t<25;t++){
+for(let t=0;t<25;t++){
 
-    const sample=[];
+const sample=[];
 
-    for(let i=0;i<X.length;i++){
+for(let i=0;i<X.length;i++){
 
-      const index=Math.floor(rng()*X.length);
+const k=Math.floor(random()*X.length);
 
-      sample.push({
-        x:[...X[index]],
-        y:y[index]
-      });
-    }
+sample.push({
+x:[...X[k]],
+y:y[k]
+});
 
-    trees.push(
-      bestSplit(
-        sample,
-        0,
-        3,
-        3
-      )
-    );
-  }
-
-  return trees;
 }
 
-function forestPredict(forest,x){
+trees.push(buildTree(sample));
+}
 
-  const predictions=forest.map(
-    tree=>treePredict(tree,x)
-  );
+return trees;
+}
 
-  return Math.max(1,mean(predictions));
+function predictForest(forest,x){
+
+return Math.max(
+1,
+mean(
+forest.map(t=>predictTree(t,x))
+)
+);
 }
 
 /* =========================================================
-   PETIT RESEAU DE NEURONES
+   RÉSEAU DE NEURONES
    ========================================================= */
 
-function randomMatrix(rows,cols,rng){
+function trainNeural(X,y){
 
-  return Array.from(
-    {length:rows},
-    ()=>Array.from(
-      {length:cols},
-      ()=>((rng()*2)-1)*0.5
-    )
-  );
+const scaler=fitScaler(X);
+const Z=scale(X,scaler);
+
+const input=Z[0].length;
+const hidden=8;
+const random=rng(1234567);
+
+let W1=Array.from(
+{length:input},
+()=>Array.from(
+{length:hidden},
+()=>((random()*2)-1)*.4
+)
+);
+
+let b1=Array(hidden).fill(0);
+
+let W2=Array.from(
+{length:hidden},
+()=>((random()*2)-1)*.3
+);
+
+let b2=0;
+
+const ym=mean(y);
+const ys=std(y)||1;
+const Y=y.map(v=>(v-ym)/ys);
+
+for(let epoch=0;epoch<700;epoch++){
+
+for(let n=0;n<Z.length;n++){
+
+const x=Z[n];
+const h=[];
+
+for(let j=0;j<hidden;j++){
+
+let v=b1[j];
+
+for(let i=0;i<input;i++)
+v+=x[i]*W1[i][j];
+
+h[j]=Math.tanh(v);
+
 }
 
-function neuralTrain(X,y){
+let out=b2;
 
-  const scaler=scalerFit(X);
-  const Z=scalerTransform(X,scaler);
+for(let j=0;j<hidden;j++)
+out+=h[j]*W2[j];
 
-  const input=Z[0].length;
-  const hidden=8;
-  const rng=randomSeed(987654);
+const error=out-Y[n];
+const oldW2=[...W2];
 
-  let W1=randomMatrix(input,hidden,rng);
-  let b1=Array(hidden).fill(0);
+for(let j=0;j<hidden;j++)
+W2[j]-=.006*error*h[j];
 
-  let W2=Array.from(
-    {length:hidden},
-    ()=>((rng()*2)-1)*0.3
-  );
+b2-=.006*error;
 
-  let b2=mean(y);
+for(let j=0;j<hidden;j++){
 
-  const targetMean=mean(y);
-  const targetScale=std(y)||1;
+const dz=
+error*
+oldW2[j]*
+(1-h[j]*h[j]);
 
-  const Y=y.map(v=>(v-targetMean)/targetScale);
+b1[j]-=.006*dz;
 
-  const lr=0.008;
+for(let i=0;i<input;i++)
+W1[i][j]-=.006*dz*x[i];
 
-  for(let epoch=0;epoch<900;epoch++){
-
-    for(let n=0;n<Z.length;n++){
-
-      const x=Z[n];
-
-      const h=[];
-
-      for(let j=0;j<hidden;j++){
-
-        let z=b1[j];
-
-        for(let i=0;i<input;i++)
-          z+=x[i]*W1[i][j];
-
-        h[j]=Math.tanh(z);
-      }
-
-      let out=b2;
-
-      for(let j=0;j<hidden;j++)
-        out+=h[j]*W2[j];
-
-      const error=out-Y[n];
-
-      for(let j=0;j<hidden;j++)
-        W2[j]-=lr*error*h[j];
-
-      b2-=lr*error;
-
-      for(let j=0;j<hidden;j++){
-
-        const dz=
-          error*
-          W2[j]*
-          (1-h[j]*h[j]);
-
-        b1[j]-=lr*dz;
-
-        for(let i=0;i<input;i++)
-          W1[i][j]-=lr*dz*x[i];
-      }
-    }
-  }
-
-  return {
-    scaler,
-    W1,
-    b1,
-    W2,
-    b2,
-    targetMean,
-    targetScale
-  };
 }
 
-function neuralPredict(model,x){
+}
 
-  const z=scalerOne(x,model.scaler);
-  const hidden=model.W2.length;
+}
 
-  const h=[];
+return{
+scaler,W1,b1,W2,b2,
+ym,ys
+};
+}
 
-  for(let j=0;j<hidden;j++){
+function predictNeural(model,x){
 
-    let v=model.b1[j];
+const z=scaleOne(x,model.scaler);
+const h=[];
 
-    for(let i=0;i<z.length;i++)
-      v+=z[i]*model.W1[i][j];
+for(let j=0;j<model.W2.length;j++){
 
-    h[j]=Math.tanh(v);
-  }
+let v=model.b1[j];
 
-  let out=model.b2;
+for(let i=0;i<z.length;i++)
+v+=z[i]*model.W1[i][j];
 
-  for(let j=0;j<hidden;j++)
-    out+=h[j]*model.W2[j];
+h[j]=Math.tanh(v);
 
-  const p=
-    out*model.targetScale+
-    model.targetMean;
+}
 
-  return Math.max(1,p);
+let out=model.b2;
+
+for(let j=0;j<h.length;j++)
+out+=h[j]*model.W2[j];
+
+return Math.max(
+1,
+out*model.ys+model.ym
+);
 }
 
 /* =========================================================
-   WALK-FORWARD
+   WALK FORWARD
    ========================================================= */
 
-function evaluateModel(rows,modelName){
+function evaluate(type){
 
-  const actual=[];
-  const predicted=[];
+const actual=[];
+const predicted=[];
 
-  /*
-    On commence au tour 10 afin d'avoir suffisamment
-    d'historique pour construire les variables.
-  */
+for(let i=10;i<data.length;i++){
 
-  for(let i=10;i<rows.length;i++){
+const X=[];
+const y=[];
 
-    const trainX=[];
-    const trainY=[];
+for(let j=5;j<i;j++){
 
-    for(let j=5;j<i;j++){
+const f=features(data,j);
 
-      const features=buildFeatures(rows,j);
+if(f){
+X.push(f);
+y.push(data[j].multiplier);
+}
 
-      if(features){
+}
 
-        trainX.push(features);
-        trainY.push(rows[j].multiplier);
-      }
-    }
+const test=features(data,i);
 
-    const testX=buildFeatures(rows,i);
+if(!test||X.length<5)continue;
 
-    if(!testX || trainX.length<5)
-      continue;
+let prediction;
 
-    let prediction;
+if(type==="linear"){
 
-    if(modelName==="linear"){
+const m=trainLinear(X,y);
+prediction=predictLinear(m,test);
 
-      const model=linearFit(trainX,trainY);
+}
 
-      prediction=linearPredict(model,testX);
-    }
+if(type==="tree"){
 
-    if(modelName==="tree"){
+const rows=X.map((x,k)=>({x,y:y[k]}));
+const m=buildTree(rows);
+prediction=predictTree(m,test);
 
-      const model=trainTree(trainX,trainY);
+}
 
-      prediction=treePredict(model,testX);
-    }
+if(type==="forest"){
 
-    if(modelName==="forest"){
+const m=trainForest(X,y);
+prediction=predictForest(m,test);
 
-      const model=trainForest(trainX,trainY);
+}
 
-      prediction=forestPredict(model,testX);
-    }
+if(type==="neural"){
 
-    if(modelName==="neural"){
+const m=trainNeural(X,y);
+prediction=predictNeural(m,test);
 
-      const model=neuralTrain(trainX,trainY);
+}
 
-      prediction=neuralPredict(model,testX);
-    }
+actual.push(data[i].multiplier);
+predicted.push(prediction);
 
-    if(Number.isFinite(prediction)){
+}
 
-      actual.push(rows[i].multiplier);
-      predicted.push(prediction);
-    }
-  }
+const errors=actual.map(
+(v,i)=>predicted[i]-v
+);
 
-  const errors=actual.map(
-    (v,i)=>predicted[i]-v
-  );
+const mae=mean(
+errors.map(e=>Math.abs(e))
+);
 
-  const mae=
-    mean(errors.map(e=>Math.abs(e)));
+const rmse=Math.sqrt(
+mean(errors.map(e=>e*e))
+);
 
-  const rmse=
-    Math.sqrt(
-      mean(errors.map(e=>e*e))
-    );
+const am=mean(actual);
 
-  const actualMean=mean(actual);
+const ssRes=actual.reduce(
+(s,v,i)=>s+(v-predicted[i])**2,
+0
+);
 
-  const ssRes=
-    actual.reduce(
-      (s,v,i)=>s+(v-predicted[i])**2,
-      0
-    );
+const ssTot=actual.reduce(
+(s,v)=>s+(v-am)**2,
+0
+);
 
-  const ssTot=
-    actual.reduce(
-      (s,v)=>s+(v-actualMean)**2,
-      0
-    );
+const r2=
+ssTot?1-ssRes/ssTot:0;
 
-  const r2=
-    ssTot===0
-      ? 0
-      : 1-(ssRes/ssTot);
-
-  return {
-    mae,
-    rmse,
-    r2,
-    tests:actual.length
-  };
+return{
+mae,
+rmse,
+r2,
+tests:actual.length
+};
 }
 
 /* =========================================================
-   AFFICHAGE STATISTIQUES
+   AFFICHAGE
    ========================================================= */
 
 function renderStats(){
 
-  const values=data.map(x=>x.multiplier);
+const v=data.map(x=>x.multiplier);
 
-  const html=`
-    <div class="card">
-      <small>Tours</small>
-      <div class="value">${data.length}</div>
-    </div>
+document.getElementById("stats").innerHTML=`
 
-    <div class="card">
-      <small>Moyenne</small>
-      <div class="value">${fmt(mean(values))}x</div>
-    </div>
+<div class="card">
+<small>Tours</small>
+<div class="value">${data.length}</div>
+</div>
 
-    <div class="card">
-      <small>Médiane</small>
-      <div class="value">${fmt(median(values))}x</div>
-    </div>
+<div class="card">
+<small>Moyenne</small>
+<div class="value">${fmt(mean(v))}x</div>
+</div>
 
-    <div class="card">
-      <small>Minimum</small>
-      <div class="value">${fmt(Math.min(...values))}x</div>
-    </div>
+<div class="card">
+<small>Médiane</small>
+<div class="value">${fmt(median(v))}x</div>
+</div>
 
-    <div class="card">
-      <small>Maximum</small>
-      <div class="value">${fmt(Math.max(...values))}x</div>
-    </div>
+<div class="card">
+<small>Minimum</small>
+<div class="value">${fmt(Math.min(...v))}x</div>
+</div>
 
-    <div class="card">
-      <small>Écart-type</small>
-      <div class="value">${fmt(std(values))}x</div>
-    </div>
-  `;
+<div class="card">
+<small>Maximum</small>
+<div class="value">${fmt(Math.max(...v))}x</div>
+</div>
 
-  document.getElementById("stats").innerHTML=html;
+<div class="card">
+<small>Écart-type</small>
+<div class="value">${fmt(std(v))}x</div>
+</div>
+
+`;
+
+document.getElementById("dataCount").textContent=data.length;
 }
-
-/* =========================================================
-   DISTRIBUTION
-   ========================================================= */
 
 function renderDistribution(){
 
-  const buckets=[
-    ["1.00–1.99x",1,1.99],
-    ["2.00–2.99x",2,2.99],
-    ["3.00–4.99x",3,4.99],
-    ["5.00–9.99x",5,9.99],
-    ["10x+",10,Infinity]
-  ];
+const buckets=[
+["1.00–1.99x",1,1.99],
+["2.00–2.99x",2,2.99],
+["3.00–4.99x",3,4.99],
+["5.00–9.99x",5,9.99],
+["10x+",10,Infinity]
+];
 
-  const html=buckets.map(b=>{
+document.getElementById("distribution").innerHTML=
+buckets.map(b=>{
 
-    const count=data.filter(
-      r=>r.multiplier>=b[1] &&
-         r.multiplier<=b[2]
-    ).length;
+const n=data.filter(
+r=>r.multiplier>=b[1]&&r.multiplier<=b[2]
+).length;
 
-    const pct=
-      data.length
-      ? count/data.length*100
-      : 0;
+return`
+<div class="card">
+<small>${b[0]}</small>
+<div class="value">${n}</div>
+<div class="muted">
+${fmt(n/data.length*100,1)}%
+</div>
+</div>
+`;
 
-    return `
-      <div class="card">
-        <small>${b[0]}</small>
-        <div class="value">${count}</div>
-        <div class="muted">${fmt(pct,1)}%</div>
-      </div>
-    `;
-  }).join("");
-
-  document.getElementById("distribution").innerHTML=html;
+}).join("");
 }
-
-/* =========================================================
-   TENDANCES
-   ========================================================= */
 
 function renderTrends(){
 
-  const values=data.map(x=>x.multiplier);
+const v=data.map(x=>x.multiplier);
+const windows=[5,10,20];
 
-  const windows=[5,10,20];
+let html="";
 
-  let html="";
+for(const n of windows){
 
-  for(const n of windows){
+const a=v.slice(-n);
 
-    const arr=values.slice(-n);
+html+=`
+<div class="card">
+<small>Moyenne ${n}</small>
+<div class="value">${fmt(mean(a))}x</div>
+<div class="muted">
+Médiane : ${fmt(median(a))}x
+</div>
+</div>
+`;
 
-    html+=`
-      <div class="card">
-        <small>Moyenne ${n} derniers</small>
-        <div class="value">${fmt(mean(arr))}x</div>
-        <div class="muted">
-          Médiane : ${fmt(median(arr))}x
-        </div>
-      </div>
-    `;
-  }
+}
 
-  const under2=values.filter(x=>x<2).length;
-  const over5=values.filter(x=>x>=5).length;
+let under=0;
+let over=0;
+let current=0;
+let longestUnder=0;
+let longestOver=0;
 
-  let longestUnder=0;
-  let current=0;
+for(const x of v){
 
-  for(const x of values){
+if(x<2){
 
-    if(x<2){
-      current++;
-      longestUnder=Math.max(longestUnder,current);
-    }else{
-      current=0;
-    }
-  }
+under++;
+current++;
+longestUnder=Math.max(
+longestUnder,
+current
+);
 
-  let longestOver=0;
-  current=0;
+}else current=0;
 
-  for(const x of values){
+}
 
-    if(x>=5){
-      current++;
-      longestOver=Math.max(longestOver,current);
-    }else{
-      current=0;
-    }
-  }
+current=0;
 
-  html+=`
-    <div class="card">
-      <small>Tours <2x</small>
-      <div class="value">${under2}</div>
-      <div class="muted">
-        Plus longue série : ${longestUnder}
-      </div>
-    </div>
+for(const x of v){
 
-    <div class="card">
-      <small>Tours ≥5x</small>
-      <div class="value">${over5}</div>
-      <div class="muted">
-        Plus longue série : ${longestOver}
-      </div>
-    </div>
-  `;
+if(x>=5){
 
-  document.getElementById("trends").innerHTML=html;
+over++;
+current++;
+longestOver=Math.max(
+longestOver,
+current
+);
+
+}else current=0;
+
+}
+
+html+=`
+
+<div class="card">
+<small>Tours &lt;2x</small>
+<div class="value">${under}</div>
+<div class="muted">
+Plus longue série : ${longestUnder}
+</div>
+</div>
+
+<div class="card">
+<small>Tours ≥5x</small>
+<div class="value">${over}</div>
+<div class="muted">
+Plus longue série : ${longestOver}
+</div>
+</div>
+`;
+
+document.getElementById("trends").innerHTML=html;
 }
 
 /* =========================================================
@@ -1074,80 +1052,92 @@ function renderTrends(){
 
 function renderChart(){
 
-  const canvas=document.getElementById("chart");
-  const ctx=canvas.getContext("2d");
+const canvas=document.getElementById("chart");
+const rect=canvas.getBoundingClientRect();
 
-  const width=canvas.clientWidth*2;
-  const height=300*2;
+const dpr=window.devicePixelRatio||1;
 
-  canvas.width=width;
-  canvas.height=height;
+canvas.width=rect.width*dpr;
+canvas.height=320*dpr;
 
-  ctx.clearRect(0,0,width,height);
+const ctx=canvas.getContext("2d");
 
-  const values=data
-    .slice(-20)
-    .map(x=>x.multiplier);
+ctx.scale(dpr,dpr);
 
-  if(!values.length) return;
+const W=rect.width;
+const H=320;
 
-  const max=Math.max(...values,10);
+ctx.clearRect(0,0,W,H);
 
-  const pad=45;
+const values=data.slice(-20).map(
+x=>x.multiplier
+);
 
-  ctx.strokeStyle="#39445e";
-  ctx.lineWidth=2;
+if(!values.length)return;
 
-  ctx.beginPath();
+const max=Math.max(...values,10);
+const pad=40;
 
-  ctx.moveTo(pad,pad);
-  ctx.lineTo(pad,height-pad);
-  ctx.lineTo(width-pad,height-pad);
+ctx.strokeStyle="#394760";
+ctx.lineWidth=1;
 
-  ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(pad,20);
+ctx.lineTo(pad,H-pad);
+ctx.lineTo(W-15,H-pad);
+ctx.stroke();
 
-  ctx.strokeStyle="#5b8cff";
-  ctx.lineWidth=4;
+ctx.strokeStyle="#5c8cff";
+ctx.lineWidth=3;
 
-  ctx.beginPath();
+ctx.beginPath();
 
-  values.forEach((v,i)=>{
+values.forEach((v,i)=>{
 
-    const x=
-      pad+
-      i*(width-2*pad)/
-      Math.max(1,values.length-1);
+const x=
+pad+
+i*(W-pad-15)/
+Math.max(1,values.length-1);
 
-    const y=
-      height-pad-
-      (v/max)*(height-2*pad);
+const y=
+H-pad-
+(v/max)*(H-50);
 
-    if(i===0)
-      ctx.moveTo(x,y);
-    else
-      ctx.lineTo(x,y);
-  });
+if(i===0)
+ctx.moveTo(x,y);
+else
+ctx.lineTo(x,y);
 
-  ctx.stroke();
+});
 
-  ctx.fillStyle="#dce4f5";
-  ctx.font="24px Arial";
+ctx.stroke();
 
-  values.forEach((v,i)=>{
+ctx.fillStyle="#dce4f5";
 
-    const x=
-      pad+
-      i*(width-2*pad)/
-      Math.max(1,values.length-1);
+values.forEach((v,i)=>{
 
-    const y=
-      height-pad-
-      (v/max)*(height-2*pad);
+const x=
+pad+
+i*(W-pad-15)/
+Math.max(1,values.length-1);
 
-    ctx.beginPath();
-    ctx.arc(x,y,5,0,Math.PI*2);
-    ctx.fill();
-  });
+const y=
+H-pad-
+(v/max)*(H-50);
+
+ctx.beginPath();
+ctx.arc(x,y,4,0,Math.PI*2);
+ctx.fill();
+
+});
+
+ctx.font="12px Arial";
+ctx.fillText(
+"20 derniers tours",
+pad,
+15
+);
+
 }
 
 /* =========================================================
@@ -1156,113 +1146,106 @@ function renderChart(){
 
 function renderModels(){
 
-  const container=
-    document.getElementById("models");
+const container=
+document.getElementById("models");
 
-  container.innerHTML=
-    `<div class="muted">
-      Calcul des modèles en cours…
-    </div>`;
+container.innerHTML=
+`<div class="status">
+Calcul des modèles…
+</div>`;
 
-  /*
-    setTimeout permet au navigateur d'afficher l'interface
-    avant de lancer les calculs.
-  */
+setTimeout(()=>{
 
-  setTimeout(()=>{
+const models=[
+["linear","Régression linéaire"],
+["tree","Arbre de décision"],
+["forest","Forêt aléatoire"],
+["neural","Réseau de neurones"]
+];
 
-    const models=[
-      ["linear","Régression linéaire"],
-      ["tree","Arbre de décision"],
-      ["forest","Forêt aléatoire"],
-      ["neural","Réseau de neurones"]
-    ];
+let html="";
 
-    let html="";
+for(const [type,name] of models){
 
-    for(const [id,name] of models){
+let r;
 
-      let result;
+try{
+r=evaluate(type);
+}catch(e){
 
-      try{
-        result=evaluateModel(data,id);
-      }catch(error){
+r={
+mae:NaN,
+rmse:NaN,
+r2:NaN,
+tests:0
+};
 
-        result={
-          mae:NaN,
-          rmse:NaN,
-          r2:NaN,
-          tests:0
-        };
-      }
+}
 
-      html+=`
-        <div class="model">
+html+=`
 
-          <div class="model-title">
-            ${name}
-          </div>
+<div class="model">
 
-          <div class="metrics">
+<div class="model-title">
+${name}
+</div>
 
-            <div class="metric">
-              <small>MAE</small>
-              <strong>
-                ${Number.isFinite(result.mae)
-                  ? fmt(result.mae)
-                  : "N/A"}x
-              </strong>
-            </div>
+<div class="metrics">
 
-            <div class="metric">
-              <small>RMSE</small>
-              <strong>
-                ${Number.isFinite(result.rmse)
-                  ? fmt(result.rmse)
-                  : "N/A"}x
-              </strong>
-            </div>
+<div class="metric">
+<small>MAE</small>
+<strong>
+${Number.isFinite(r.mae)?fmt(r.mae):"N/A"}x
+</strong>
+</div>
 
-            <div class="metric">
-              <small>R²</small>
-              <strong>
-                ${Number.isFinite(result.r2)
-                  ? fmt(result.r2)
-                  : "N/A"}
-              </strong>
-            </div>
+<div class="metric">
+<small>RMSE</small>
+<strong>
+${Number.isFinite(r.rmse)?fmt(r.rmse):"N/A"}x
+</strong>
+</div>
 
-            <div class="metric">
-              <small>Tests</small>
-              <strong>${result.tests}</strong>
-            </div>
+<div class="metric">
+<small>R²</small>
+<strong>
+${Number.isFinite(r.r2)?fmt(r.r2):"N/A"}
+</strong>
+</div>
 
-          </div>
+<div class="metric">
+<small>Tests</small>
+<strong>${r.tests}</strong>
+</div>
 
-          <p class="muted">
-            Évaluation chronologique walk-forward.
-            Chaque test est entraîné uniquement avec les
-            observations précédentes.
-          </p>
+</div>
 
-          ${
-            result.r2<0
-            ? `<div class="bad">
-                R² négatif : le modèle explique mal cette
-                petite série historique.
-               </div>`
-            : `<div class="good">
-                R² positif sur cet échantillon.
-               </div>`
-          }
+<p class="muted">
+Validation chronologique walk-forward.
+Les données futures ne sont pas utilisées pour entraîner
+chaque test.
+</p>
 
-        </div>
-      `;
-    }
+${
+r.r2<0
+?`<div class="bad">
+R² négatif sur cet échantillon.
+</div>`
+:`<div class="good">
+R² positif sur cet échantillon.
+</div>`
+}
 
-    container.innerHTML=html;
+</div>
 
-  },50);
+`;
+
+}
+
+container.innerHTML=html;
+
+},50);
+
 }
 
 /* =========================================================
@@ -1271,27 +1254,30 @@ function renderModels(){
 
 function renderHistory(){
 
-  const tbody=
-    document.getElementById("history");
+const tbody=document.getElementById("history");
 
-  tbody.innerHTML="";
+tbody.innerHTML="";
 
-  [...data]
-    .reverse()
-    .forEach((r,index)=>{
+[...data].reverse().forEach(
+(r,i)=>{
 
-      const tr=document.createElement("tr");
+const tr=document.createElement("tr");
 
-      tr.innerHTML=`
-        <td>${data.length-index}</td>
-        <td>${r.time}</td>
-        <td>${r.players.toLocaleString("fr-FR")}</td>
-        <td>${money(r.totalBets)}</td>
-        <td><strong>${fmt(r.multiplier)}x</strong></td>
-      `;
+tr.innerHTML=`
 
-      tbody.appendChild(tr);
-    });
+<td>${data.length-i}</td>
+<td>${r.time}</td>
+<td>${r.players.toLocaleString("fr-FR")}</td>
+<td>${money(r.totalBets)}</td>
+<td><strong>${fmt(r.multiplier)}x</strong></td>
+
+`;
+
+tbody.appendChild(tr);
+
+}
+);
+
 }
 
 /* =========================================================
@@ -1300,109 +1286,94 @@ function renderHistory(){
 
 function renderAll(){
 
-  renderStats();
-  renderDistribution();
-  renderTrends();
-  renderHistory();
-  renderChart();
-  renderModels();
+renderStats();
+renderDistribution();
+renderTrends();
+renderChart();
+renderModels();
+renderHistory();
+
 }
 
 /* =========================================================
-   IMPORT CSV
+   CSV
    ========================================================= */
 
 document
 .getElementById("csvFile")
-.addEventListener("change",function(event){
+.addEventListener("change",function(e){
 
-  const file=event.target.files[0];
+const file=e.target.files[0];
 
-  if(!file) return;
+if(!file)return;
 
-  const reader=new FileReader();
+const reader=new FileReader();
 
-  reader.onload=function(e){
+reader.onload=function(event){
 
-    const lines=
-      e.target.result
-      .split(/\r?\n/)
-      .map(x=>x.trim())
-      .filter(Boolean);
+const lines=
+event.target.result
+.split(/\r?\n/)
+.map(x=>x.trim())
+.filter(Boolean);
 
-    const parsed=[];
+const parsed=[];
 
-    for(let i=0;i<lines.length;i++){
+for(let i=0;i<lines.length;i++){
 
-      const line=lines[i];
+if(
+i===0 &&
+lines[i].toLowerCase().includes("multiplier")
+)continue;
 
-      /*
-        Ignore l'en-tête.
-      */
+const p=lines[i].split(",");
 
-      if(
-        i===0 &&
-        line.toLowerCase().includes("multiplier")
-      )
-        continue;
+if(p.length<4)continue;
 
-      const parts=line.split(",");
+const time=p[0].trim();
+const players=Number(p[1]);
+const totalBets=Number(p[2]);
+const multiplier=Number(p[3]);
 
-      if(parts.length<4) continue;
+if(
+Number.isFinite(players)&&
+Number.isFinite(totalBets)&&
+Number.isFinite(multiplier)
+){
 
-      const time=parts[0].trim();
+parsed.push({
+time,
+players,
+totalBets,
+multiplier
+});
 
-      const players=
-        Number(
-          parts[1].trim()
-        );
+}
 
-      const totalBets=
-        Number(
-          parts[2].trim()
-        );
+}
 
-      const multiplier=
-        Number(
-          parts[3].trim()
-        );
+if(parsed.length<5){
 
-      if(
-        Number.isFinite(players) &&
-        Number.isFinite(totalBets) &&
-        Number.isFinite(multiplier)
-      ){
+alert(
+"Le CSV ne contient pas suffisamment de données valides."
+);
 
-        parsed.push({
-          time,
-          players,
-          totalBets,
-          multiplier
-        });
-      }
-    }
+return;
 
-    if(parsed.length<5){
+}
 
-      alert(
-        "CSV invalide ou insuffisant. " +
-        "Vérifie le format : time,players,totalBets,multiplier"
-      );
+data=parsed;
 
-      return;
-    }
+document.getElementById("status").textContent=
+parsed.length+
+" observations chargées avec succès.";
 
-    data=parsed;
+renderAll();
 
-    renderAll();
+};
 
-    alert(
-      parsed.length+
-      " observations importées."
-    );
-  };
+reader.readAsText(file);
 
-  reader.readAsText(file);
 });
 
 /* =========================================================
@@ -1411,28 +1382,28 @@ document
 
 function resetData(){
 
-  data=DEFAULT_DATA.map(x=>({
-    time:x[0],
-    players:Number(x[1]),
-    totalBets:Number(x[2]),
-    multiplier:Number(x[3])
-  }));
+data=DEFAULT_DATA.map(x=>({
+time:x[0],
+players:Number(x[1]),
+totalBets:Number(x[2]),
+multiplier:Number(x[3])
+}));
 
-  document.getElementById("csvFile").value="";
+document.getElementById("csvFile").value="";
 
-  renderAll();
-}
-
-/* =========================================================
-   LANCEMENT
-   ========================================================= */
+document.getElementById("status").textContent=
+"Les 43 données originales sont chargées.";
 
 renderAll();
 
+}
+
 window.addEventListener(
-  "resize",
-  renderChart
+"resize",
+renderChart
 );
+
+renderAll();
 
 </script>
 
