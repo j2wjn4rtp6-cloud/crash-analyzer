@@ -2,2483 +2,1732 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Crash Analyzer</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
-margin:0;
-background:#070c16;
-color:#f4f7fb;
-font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
 }
-
 .container{
-max-width:1100px;
-margin:auto;
-padding:14px
+  max-width:1100px;
+  margin:auto;
+  padding:16px;
 }
-
-header,.box,.card,.model,.chart{
-background:#111a2b;
-border:1px solid #22304a;
-border-radius:16px;
-padding:16px;
-margin:0 0 12px
+h1{margin-bottom:6px}
+h2{margin-top:0}
+.card{
+  background:#1e293b;
+  border-radius:14px;
+  padding:18px;
+  margin:16px 0;
+  box-shadow:0 4px 15px rgba(0,0,0,.25);
 }
-
-header{
-background:linear-gradient(135deg,#182544,#0e172b)
-}
-
-h1{
-margin:0;
-font-size:29px
-}
-
-h2{
-margin:28px 0 12px;
-font-size:21px
-}
-
-.muted{
-color:#93a1b8;
-font-size:14px
-}
-
 .warning{
-background:#2b2110;
-border:1px solid #80601c;
-border-radius:14px;
-padding:15px;
-margin:12px 0
+  background:#422006;
+  border:1px solid #92400e;
+  padding:12px;
+  border-radius:10px;
+  margin:12px 0;
 }
-
-.prediction{
-border-color:#4e7fff;
-background:#0e1a30
+textarea,input{
+  width:100%;
+  padding:12px;
+  margin:6px 0 10px;
+  border-radius:8px;
+  border:1px solid #475569;
+  background:#0f172a;
+  color:white;
 }
-
-.prediction-value{
-font-size:34px;
-font-weight:800
-}
-
-.inputrow{
-display:flex;
-gap:8px;
-flex-wrap:wrap
-}
-
-input,textarea{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #2b3a57;
-background:#09111f;
-color:#fff;
-font-size:16px
-}
-
-textarea{
-min-height:130px;
-resize:vertical
-}
-
 button{
-border:0;
-border-radius:10px;
-padding:12px 15px;
-background:#4e7fff;
-color:#fff;
-font-weight:700;
-cursor:pointer;
-margin:6px 4px 0 0
+  border:0;
+  border-radius:8px;
+  padding:11px 15px;
+  margin:4px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#2563eb;
+  color:white;
 }
-
-.green{
-background:#26734b
+button.secondary{background:#475569}
+button.danger{background:#b91c1c}
+button.green{background:#15803d}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
 }
-
-.secondary{
-background:#293650
+.stat{
+  background:#0f172a;
+  padding:14px;
+  border-radius:10px;
 }
-
-.danger{
-background:#8d3030
+.stat strong{
+  display:block;
+  font-size:22px;
+  margin-top:5px;
 }
-
-.status{
-background:#101a2c;
-border:1px solid #293a58;
-border-radius:10px;
-padding:11px;
-margin-top:10px
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
-gap:10px
-}
-
-.card small,.metric small{
-display:block;
-color:#93a1b8
-}
-
-.value{
-font-size:23px;
-font-weight:700
-}
-
-.metrics{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:8px
-}
-
-.metric{
-background:#09111f;
-border-radius:9px;
-padding:10px
-}
-
-.metric strong{
-font-size:17px
-}
-
-.bar{
-height:9px;
-background:#202c43;
-border-radius:10px;
-overflow:hidden
-}
-
-.fill{
-height:100%;
-background:#527fff
-}
-
-.range-head{
-display:flex;
-justify-content:space-between;
-font-size:13px;
-margin:10px 0 4px
-}
-
-.table-wrap{
-overflow:auto;
-border:1px solid #22304a;
-border-radius:12px
-}
-
 table{
-width:100%;
-border-collapse:collapse;
-background:#111a2b
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+  font-size:14px;
 }
-
 th,td{
-padding:9px;
-border-bottom:1px solid #25324a;
-white-space:nowrap;
-text-align:left;
-font-size:13px
+  border-bottom:1px solid #334155;
+  padding:8px;
+  text-align:left;
 }
-
-th{
-background:#0c1423;
-color:#aebbd0
+.result{
+  background:#020617;
+  border:1px solid #334155;
+  border-radius:12px;
+  padding:15px;
+  margin-top:15px;
 }
-
+.big{
+  font-size:34px;
+  font-weight:bold;
+}
+.model{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #334155;
+}
+small{color:#94a3b8}
 canvas{
-width:100%;
-height:300px;
-display:block
+  width:100%;
+  max-height:320px;
 }
-
-.footer{
-text-align:center;
-color:#65738b;
-font-size:12px;
-padding:25px
-}
-
 @media(max-width:600px){
-
-.container{
-padding:11px
-}
-
-.metrics{
-grid-template-columns:repeat(2,1fr)
-}
-
-button{
-width:100%;
-margin-right:0
-}
-
-.inputrow{
-display:block
-}
-
-.inputrow>*{
-margin-top:7px
-}
-
+  .container{padding:10px}
+  table{font-size:12px}
+  th,td{padding:6px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<header>
-
 <h1>📊 Crash Analyzer</h1>
-
-<div class="muted">
-Analyse statistique historique + estimation expérimentale
-</div>
-
-</header>
-
+<p>Analyse statistique historique + estimation expérimentale</p>
 
 <div class="warning">
-
-<strong>⚠️ Important</strong>
-
-<br><br>
-
-Les estimations sont calculées à partir des multiplicateurs
-fournis.
-
-<br><br>
-
-Elles ne permettent pas de connaître avec certitude le prochain
-résultat et ne garantissent aucun gain.
-
+⚠️ Les estimations sont expérimentales et basées uniquement sur les données
+historiques enregistrées. Elles ne garantissent jamais le résultat d'un prochain
+tour de Crash.
 </div>
 
+<!-- ========================= -->
+<!-- PREDICTION -->
+<!-- ========================= -->
 
-<!-- =====================================================
-01 · PRÉDICTION
-===================================================== -->
-
+<div class="card">
 <h2>01 · 🔮 Lancer une prédiction</h2>
 
-<div class="box prediction">
-
-<strong>Nouveaux multiplicateurs</strong>
-
-<p class="muted">
-
-Entre uniquement les nouveaux scores, un par ligne.
-
-<br>
-
-Exemple :
-
-<br><br>
-
-1.5<br>
-1.8<br>
-2.35<br>
-4.7<br>
-1.2
-
-<br><br>
-
-Pas besoin d'heure, de date, de joueurs ou de mises.
-
+<p>
+Entre les nouveaux multiplicateurs obtenus, un par ligne.
 </p>
 
-<textarea
-id="newMultipliers"
-inputmode="decimal"
-placeholder="1.5
+<textarea id="newMultipliers"
+rows="8"
+placeholder="Exemple :
+1.5
 1.8
 2.35
 4.7
-1.2"
-></textarea>
+1.2"></textarea>
 
-<button
-class="green"
-onclick="runPrediction()"
->
+<button class="green" onclick="runPrediction()">
 🔮 LANCER LA PRÉDICTION
 </button>
 
-<button
-class="secondary"
-onclick="clearPrediction()"
->
+<button class="secondary" onclick="clearPrediction()">
 Effacer
 </button>
 
-<div
-id="predictionStatus"
-class="status"
->
-Entre les nouveaux multiplicateurs puis lance la prédiction.
+<div id="predictionResult"></div>
 </div>
 
-</div>
+<!-- ========================= -->
+<!-- AJOUT COMPLET -->
+<!-- ========================= -->
 
-<div id="predictionResults"></div>
+<div class="card">
+<h2>02 · ➕ Ajouter un tour historique</h2>
 
+<p>
+Pour enrichir progressivement ta base de données, tu peux aussi enregistrer
+un tour complet avec son heure, le nombre de joueurs, les mises et le
+multiplicateur.
+</p>
 
-<!-- =====================================================
-02 · DONNÉES HISTORIQUES
-===================================================== -->
+<input id="timeInput" placeholder="Heure (ex : 12:35)">
+<input id="playersInput" type="number" placeholder="Nombre de joueurs">
+<input id="betsInput" type="number" step="any" placeholder="Total des mises">
+<input id="multiplierInput" type="number" step="0.01" placeholder="Multiplicateur">
 
-<h2>02 · Gestion des données historiques</h2>
-
-<div class="box">
-
-<strong>
-<span id="dataCount">43</span>
-tours enregistrés
-</strong>
-
-<br>
-
-<span class="muted">
-
-Les 43 données originales restent conservées.
-
-Les nouveaux multiplicateurs saisis pour une prédiction
-ne remplacent pas l'historique.
-
-</span>
-
-</div>
-
-
-<div class="box">
-
-<h3>➕ Ajouter un tour historique complet</h3>
-
-<div class="inputrow">
-
-<input
-id="newTime"
-type="time"
->
-
-<input
-id="newPlayers"
-type="number"
-placeholder="Joueurs"
->
-
-<input
-id="newBets"
-type="number"
-step="0.01"
-placeholder="Total mises"
->
-
-<input
-id="newMultiplier"
-type="number"
-step="0.01"
-min="0.01"
-placeholder="Multiplicateur"
->
-
-<button
-class="green"
-onclick="addRow()"
->
-Ajouter
+<button class="green" onclick="addFullRow()">
+➕ AJOUTER À L'HISTORIQUE
 </button>
-
 </div>
 
-</div>
+<!-- ========================= -->
+<!-- GESTION -->
+<!-- ========================= -->
 
+<div class="card">
+<h2>03 · 💾 Gestion des données historiques</h2>
 
-<div class="box">
+<p>
+Base actuelle :
+<strong id="countText">0</strong> tours.
+</p>
 
-<h3>📥 Importer un CSV</h3>
+<input type="file" id="csvFile" accept=".csv">
 
-<div class="muted">
-
-Format :
-
-<br><br>
-
-<code>
-time,players,totalBets,multiplier
-</code>
-
-</div>
-
-<br>
-
-<input
-id="csv"
-type="file"
-accept=".csv"
->
-
-</div>
-
-
-<div class="box">
-
-<h3>💾 Sauvegarde</h3>
+<button onclick="importCSV()">
+📥 Importer CSV
+</button>
 
 <button onclick="exportCSV()">
-Exporter CSV
+📤 Exporter CSV
 </button>
 
-<button
-class="secondary"
-onclick="exportJSON()"
->
-Sauvegarder JSON
+<button onclick="exportJSON()">
+💾 Sauvegarde JSON
+</button>
+
+<input type="file" id="jsonFile" accept=".json">
+
+<button onclick="importJSON()">
+📂 Restaurer JSON
 </button>
 
 <br>
 
-<input
-id="json"
-type="file"
-accept=".json"
->
-
-<button
-class="secondary"
-onclick="restoreJSON()"
->
-Restaurer JSON
+<button class="secondary" onclick="resetOriginalData()">
+🔄 Réinitialiser les données originales
 </button>
 
+<button class="danger" onclick="clearAllData()">
+🗑️ Effacer toute la base
+</button>
 </div>
 
+<!-- ========================= -->
+<!-- STATS -->
+<!-- ========================= -->
 
-<button
-class="danger"
-onclick="resetData()"
->
-Réinitialiser aux 43 données originales
-</button>
+<div class="card">
+<h2>04 · 📈 Statistiques historiques</h2>
 
-<button
-class="danger"
-onclick="clearData()"
->
-Effacer toutes les données
-</button>
+<div class="grid">
 
-<div
-id="status"
-class="status"
-></div>
+<div class="stat">
+Tours
+<strong id="statCount">0</strong>
+</div>
 
+<div class="stat">
+Moyenne
+<strong id="statMean">0x</strong>
+</div>
 
-<!-- =====================================================
-03 · STATISTIQUES
-===================================================== -->
+<div class="stat">
+Médiane
+<strong id="statMedian">0x</strong>
+</div>
 
-<h2>03 · Vue d'ensemble</h2>
+<div class="stat">
+Minimum
+<strong id="statMin">0x</strong>
+</div>
 
-<div
-id="stats"
-class="cards"
-></div>
+<div class="stat">
+Maximum
+<strong id="statMax">0x</strong>
+</div>
 
+<div class="stat">
+Écart-type
+<strong id="statStd">0x</strong>
+</div>
 
-<!-- =====================================================
-04 · DISTRIBUTION
-===================================================== -->
+</div>
+</div>
 
-<h2>04 · Distribution historique</h2>
+<!-- ========================= -->
+<!-- DISTRIBUTION -->
+<!-- ========================= -->
 
+<div class="card">
+<h2>05 · 📊 Distribution</h2>
 <div id="distribution"></div>
-
-
-<!-- =====================================================
-05 · TENDANCES
-===================================================== -->
-
-<h2>05 · Tendances récentes</h2>
-
-<div
-id="trends"
-class="cards"
-></div>
-
-
-<!-- =====================================================
-06 · GRAPHIQUE
-===================================================== -->
-
-<h2>06 · Graphique des 20 derniers tours</h2>
-
-<div class="chart">
-
-<canvas id="chart"></canvas>
-
 </div>
 
+<!-- ========================= -->
+<!-- TENDANCES -->
+<!-- ========================= -->
 
-<!-- =====================================================
-07 · MODÈLES
-===================================================== -->
-
-<h2>07 · Comparaison historique des modèles</h2>
-
-<div class="warning">
-
-Les métriques ci-dessous mesurent les erreurs des modèles
-sur les données passées.
-
-<br><br>
-
-Elles ne constituent pas une prédiction certaine du prochain
-résultat.
-
+<div class="card">
+<h2>06 · 📉 Tendances récentes</h2>
+<div id="trends"></div>
 </div>
 
-<div id="models"></div>
+<!-- ========================= -->
+<!-- MODELES -->
+<!-- ========================= -->
 
+<div class="card">
+<h2>07 · 🤖 Comparaison des modèles</h2>
 
-<!-- =====================================================
-08 · HISTORIQUE
-===================================================== -->
+<p>
+Les modèles sont évalués chronologiquement sur les données historiques,
+sans utiliser les données futures pour entraîner les estimations précédentes.
+</p>
 
-<h2>08 · Historique complet</h2>
+<div id="modelComparison"></div>
+</div>
 
-<div class="table-wrap">
+<!-- ========================= -->
+<!-- GRAPHIQUE -->
+<!-- ========================= -->
 
+<div class="card">
+<h2>08 · 📈 20 derniers multiplicateurs</h2>
+<canvas id="chart" width="900" height="320"></canvas>
+</div>
+
+<!-- ========================= -->
+<!-- TABLE -->
+<!-- ========================= -->
+
+<div class="card">
+<h2>09 · 🗂️ Historique</h2>
+
+<div style="overflow-x:auto">
 <table>
-
 <thead>
-
 <tr>
-
 <th>#</th>
-
 <th>Heure</th>
-
 <th>Joueurs</th>
-
 <th>Total mises</th>
-
 <th>Multiplicateur</th>
-
 </tr>
-
 </thead>
 
-<tbody id="history"></tbody>
-
+<tbody id="historyTable"></tbody>
 </table>
-
 </div>
-
-
-<div class="footer">
-
-Crash Analyzer · Analyse locale dans le navigateur
-
 </div>
 
 </div>
-
 
 <script>
 
 /* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const STORAGE_KEY = "crash_analyzer_final_v2";
+
+/* =========================================================
    DONNÉES ORIGINALES
+   IMPORTANT : l'ordre est conservé.
 ========================================================= */
 
-const DEFAULT=[
+const ORIGINAL_DATA = [
+["12:31",4860,285149.22,19.47],
+["12:32",5485,347475.08,8.5],
+["12:32",4889,279895.61,16.85],
+["12:33",4722,264369.12,7.92],
+["12:33",4631,261669.26,2.19],
+["12:34",3821,219453.32,2.7],
+["12:34",4496,270534.03,3.01],
+["12:34",4770,301274.78,3.87],
+["12:35",5089,299381.68,1.96],
+["12:35",4403,240094.04,2.17],
+["12:36",3925,190591.12,2.37],
+["12:36",5239,190591.12,1],
 
-['12:31',4860,285149.22,19.47],
-['12:32',5485,347475.08,8.5],
-['12:32',4889,279895.61,16.85],
-['12:33',4722,264369.12,7.92],
-['12:33',4631,261669.26,2.19],
-['12:34',3821,219453.32,2.7],
-['12:34',4496,270534.03,3.01],
-['12:34',4770,301274.78,3.87],
-['12:35',5089,299381.68,1.96],
-['12:35',4403,240094.04,2.17],
-['12:36',3925,190591.12,2.37],
-['12:36',5239,190591.12,1],
-['04:08',5184,357567.09,1.17],
-['04:09',5318,396546.91,24.11],
-['04:10',6411,396561.83,29.02],
-['04:10',5603,333743.85,3.62],
-['04:11',4931,259121.34,1.21],
-['04:11',3674,261000,1.5],
-['04:11',4387,270558,1.28],
-['04:12',4845,303408.57,9.25],
-['04:12',6602,347718.52,8.51],
-['04:13',6071,318053,1.22],
-['04:13',4313,235103,6.68],
-['04:13',6317,309663,1.38],
-['04:14',5565,313130,5.29],
-['04:14',6243,292935,2.5],
-['04:15',6030,306941.68,23.38],
-['04:15',6523,340012.87,1.89],
-['04:16',5666,312296,1.04],
-['04:16',5666,312296,1.02],
-['04:16',5475,345128.82,1.29],
-['04:16',5963,386395,1.9],
-['04:17',6939,422143,3.87],
-['04:17',7503,415809.22,6.1],
-['04:18',7298,368386.97,1.81],
-['04:18',6207,337980,1.11],
-['04:18',5464,317772,1.15],
-['04:19',6092,335788.3,5.42],
-['04:19',7580,3964088,1.49],
-['04:19',6759,416790,1.07],
-['04:20',6284,386665,1.23],
-['04:20',6148,361375,1.33],
-['04:20',6282,392739.77,1.52]
-
+["04:08",5184,357567.09,1.17],
+["04:09",5318,396546.91,24.11],
+["04:10",6411,396561.83,29.02],
+["04:10",5603,333743.85,3.62],
+["04:11",4931,259121.34,1.21],
+["04:11",3674,261000,1.5],
+["04:11",4387,270558,1.28],
+["04:12",4845,303408.57,9.25],
+["04:12",6602,347718.52,8.51],
+["04:13",6071,318053,1.22],
+["04:13",4313,235103,6.68],
+["04:13",6317,309663,1.38],
+["04:14",5565,313130,5.29],
+["04:14",6243,292935,2.5],
+["04:15",6030,306941.68,23.38],
+["04:15",6523,340012.87,1.89],
+["04:16",5666,312296,1.04],
+["04:16",5666,312296,1.02],
+["04:16",5475,345128.82,1.29],
+["04:16",5963,386395,1.9],
+["04:17",6939,422143,3.87],
+["04:17",7503,415809.22,6.1],
+["04:18",7298,368386.97,1.81],
+["04:18",6207,337980,1.11],
+["04:18",5464,317772,1.15],
+["04:19",6092,335788.3,5.42],
+["04:19",7580,3964088,1.49],
+["04:19",6759,416790,1.07],
+["04:20",6284,386665,1.23],
+["04:20",6148,361375,1.33],
+["04:20",6282,392739.77,1.52]
 ];
 
-
 /* =========================================================
-   STOCKAGE
+   CHARGEMENT DES DONNÉES
 ========================================================= */
 
-const KEY='crash_analyzer_final_v1';
+let data = loadData();
 
-const clone=()=>DEFAULT.map(x=>({
+function loadData(){
 
-time:x[0],
-players:+x[1],
-totalBets:+x[2],
-multiplier:+x[3]
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-}));
+    if(saved){
+      const parsed = JSON.parse(saved);
 
-function valid(r){
+      if(Array.isArray(parsed) && parsed.length){
+        return parsed;
+      }
+    }
+  }catch(e){
+    console.error(e);
+  }
 
-return r &&
-typeof r.time==='string' &&
-Number.isFinite(+r.players) &&
-Number.isFinite(+r.totalBets) &&
-Number.isFinite(+r.multiplier) &&
-+r.players>=0 &&
-+r.totalBets>=0 &&
-+r.multiplier>0;
-
+  return ORIGINAL_DATA.map(r => [...r]);
 }
 
-let data=(()=>{
-
-try{
-
-let x=JSON.parse(
-localStorage.getItem(KEY)
-);
-
-if(Array.isArray(x)&&x.length)
-return x.filter(valid);
-
-}catch(e){}
-
-return clone();
-
-})();
-
-
-function save(){
-
-localStorage.setItem(
-KEY,
-JSON.stringify(data)
-);
-
+function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
-
 
 /* =========================================================
-   OUTILS
+   OUTILS STATISTIQUES
 ========================================================= */
 
-const mean=a=>
-a.length
-?a.reduce((s,x)=>s+x,0)/a.length
-:0;
+function multipliers(){
 
-
-const med=a=>{
-
-if(!a.length)
-return 0;
-
-let x=[...a]
-.sort((a,b)=>a-b);
-
-let m=Math.floor(x.length/2);
-
-return x.length%2
-?x[m]
-:(x[m-1]+x[m])/2;
-
-};
-
-
-const sd=a=>
-
-a.length<2
-?0
-:Math.sqrt(
-a.reduce(
-(s,x)=>s+(x-mean(a))**2,
-0
-)/(a.length-1)
-);
-
-
-const f=x=>
-Number(x).toFixed(2);
-
-
-function setStatus(x){
-
-status.textContent=x;
-
+  return data
+    .map(r => Number(r[3]))
+    .filter(x => Number.isFinite(x));
 }
 
+function mean(arr){
 
-function same(a,b){
+  if(!arr.length) return 0;
 
-return(
-a.time===b.time &&
-+a.players===+b.players &&
-+a.totalBets===+b.totalBets &&
-+a.multiplier===+b.multiplier
-);
-
+  return arr.reduce((a,b)=>a+b,0)/arr.length;
 }
 
+function median(arr){
+
+  if(!arr.length) return 0;
+
+  const a=[...arr].sort((x,y)=>x-y);
+  const m=Math.floor(a.length/2);
+
+  return a.length%2
+    ? a[m]
+    : (a[m-1]+a[m])/2;
+}
+
+function std(arr){
+
+  if(!arr.length) return 0;
+
+  const m=mean(arr);
+
+  return Math.sqrt(
+    mean(arr.map(x => Math.pow(x-m,2)))
+  );
+}
+
+function formatX(x){
+
+  return Number(x).toFixed(2)+"x";
+}
 
 /* =========================================================
-   AJOUT TOUR COMPLET
+   FEATURES
 ========================================================= */
 
-function addRow(){
+function features(a,i){
 
-let r={
+  if(i<5) return null;
 
-time:newTime.value,
+  const last5=a.slice(i-5,i);
 
-players:+newPlayers.value,
-
-totalBets:+newBets.value,
-
-multiplier:+newMultiplier.value
-
-};
-
-if(
-!r.time ||
-!valid(r)
-){
-
-return setStatus(
-'⚠️ Vérifie les quatre champs.'
-);
-
+  return [
+    a[i-1],
+    a[i-2],
+    mean(last5),
+    median(last5),
+    std(last5)
+  ];
 }
-
-if(
-data.some(x=>same(x,r))
-){
-
-return setStatus(
-'⚠️ Ce tour existe déjà.'
-);
-
-}
-
-data.push(r);
-
-save();
-
-newTime.value='';
-newPlayers.value='';
-newBets.value='';
-newMultiplier.value='';
-
-setStatus(
-'✅ Tour ajouté.'
-);
-
-render();
-
-}
-
 
 /* =========================================================
-   IMPORT CSV
+   RÉGRESSION LINÉAIRE MULTIPLE
 ========================================================= */
 
-csv.onchange=e=>{
+function linearRegression(X,y){
 
-let file=e.target.files[0];
+  if(!X.length) return null;
 
-if(!file)
-return;
+  const n=X.length;
+  const p=X[0].length;
 
-let rd=new FileReader();
+  const meansX=[];
 
-rd.onload=ev=>{
+  for(let j=0;j<p;j++){
+    meansX[j]=mean(X.map(r=>r[j]));
+  }
 
-let a=0;
-let d=0;
-let b=0;
+  const meany=mean(y);
 
-ev.target.result
-.replace(/^\uFEFF/,'')
-.split(/\r?\n/)
-.map(x=>x.trim())
-.filter(Boolean)
-.forEach((line,i)=>{
+  const A=Array.from(
+    {length:p},
+    ()=>Array(p).fill(0)
+  );
 
-if(
-i===0 &&
-/time/i.test(line) &&
-/multiplier/i.test(line)
-)
-return;
+  const b=Array(p).fill(0);
 
-let p=line.includes(';')
-?line.split(';')
-:line.split(',');
+  for(let i=0;i<n;i++){
 
-if(p.length<4){
+    const row=X[i];
 
-b++;
-return;
+    for(let j=0;j<p;j++){
 
+      const xj=row[j]-meansX[j];
+
+      b[j]+=xj*(y[i]-meany);
+
+      for(let k=0;k<p;k++){
+        A[j][k]+=xj*(row[k]-meansX[k]);
+      }
+    }
+  }
+
+  const lambda=0.1;
+
+  for(let j=0;j<p;j++){
+    A[j][j]+=lambda;
+  }
+
+  const beta=solveMatrix(A,b);
+
+  if(!beta) return null;
+
+  return {
+    predict(row){
+
+      let result=meany;
+
+      for(let j=0;j<p;j++){
+        result+=beta[j]*(row[j]-meansX[j]);
+      }
+
+      return result;
+    }
+  };
 }
 
-let r={
+function solveMatrix(A,b){
 
-time:p[0]
-.replaceAll('"','')
-.trim(),
+  const n=A.length;
 
-players:+p[1]
-.replace(',','.')
-.replaceAll(' ',''),
+  const M=A.map((row,i)=>[
+    ...row,
+    b[i]
+  ]);
 
-totalBets:+p[2]
-.replace(',','.')
-.replaceAll(' ',''),
+  for(let col=0;col<n;col++){
 
-multiplier:+p
-.slice(3)
-.join(',')
-.replace(',','.')
-.replaceAll(' ','')
-.replaceAll('"','')
+    let pivot=col;
 
-};
+    for(let r=col+1;r<n;r++){
 
-if(!valid(r)){
+      if(Math.abs(M[r][col]) >
+         Math.abs(M[pivot][col])){
+        pivot=r;
+      }
+    }
 
-b++;
+    if(Math.abs(M[pivot][col])<1e-10){
+      return null;
+    }
 
+    [M[col],M[pivot]]=[M[pivot],M[col]];
+
+    const div=M[col][col];
+
+    for(let j=col;j<=n;j++){
+      M[col][j]/=div;
+    }
+
+    for(let r=0;r<n;r++){
+
+      if(r===col) continue;
+
+      const factor=M[r][col];
+
+      for(let j=col;j<=n;j++){
+        M[r][j]-=factor*M[col][j];
+      }
+    }
+  }
+
+  return M.map(r=>r[n]);
 }
-else if(
-data.some(x=>same(x,r))
-){
-
-d++;
-
-}
-else{
-
-data.push(r);
-a++;
-
-}
-
-});
-
-save();
-
-setStatus(
-`✅ Import : ${a} ajoutés, ${d} doublons, ${b} invalides.`
-);
-
-e.target.value='';
-
-render();
-
-};
-
-rd.readAsText(file);
-
-};
-
 
 /* =========================================================
-   EXPORT
+   ARBRE DE DÉCISION SIMPLE
 ========================================================= */
 
-function dl(n,t,type){
+function decisionTree(X,y){
 
-let u=URL.createObjectURL(
-new Blob(
-[t],
-{type}
-)
-);
+  if(!X.length) return null;
 
-let a=document.createElement('a');
+  const rows=X.map((x,i)=>({
+    x,
+    y:y[i]
+  }));
 
-a.href=u;
+  function build(rows,depth){
 
-a.download=n;
+    if(
+      rows.length<=4 ||
+      depth>=4
+    ){
+      return {
+        value:mean(rows.map(r=>r.y))
+      };
+    }
 
-a.click();
+    let best=null;
 
-URL.revokeObjectURL(u);
+    for(let f=0;f<X[0].length;f++){
 
+      const values=[
+        ...new Set(rows.map(r=>r.x[f]))
+      ].sort((a,b)=>a-b);
+
+      for(let k=1;k<values.length;k++){
+
+        const threshold=
+          (values[k-1]+values[k])/2;
+
+        const left=
+          rows.filter(r=>r.x[f]<=threshold);
+
+        const right=
+          rows.filter(r=>r.x[f]>threshold);
+
+        if(!left.length || !right.length) continue;
+
+        const lm=mean(left.map(r=>r.y));
+        const rm=mean(right.map(r=>r.y));
+
+        const error=
+          left.reduce((s,r)=>s+Math.pow(r.y-lm,2),0)+
+          right.reduce((s,r)=>s+Math.pow(r.y-rm,2),0);
+
+        if(!best || error<best.error){
+
+          best={
+            feature:f,
+            threshold,
+            error,
+            left,
+            right
+          };
+        }
+      }
+    }
+
+    if(!best){
+      return {
+        value:mean(rows.map(r=>r.y))
+      };
+    }
+
+    return {
+      feature:best.feature,
+      threshold:best.threshold,
+      left:build(best.left,depth+1),
+      right:build(best.right,depth+1)
+    };
+  }
+
+  const root=build(rows,0);
+
+  function predict(row,node=root){
+
+    if(node.value!==undefined){
+      return node.value;
+    }
+
+    if(row[node.feature]<=node.threshold){
+      return predict(row,node.left);
+    }
+
+    return predict(row,node.right);
+  }
+
+  return {predict};
 }
-
-
-function exportCSV(){
-
-dl(
-
-'crash-analyzer-data.csv',
-
-'time,players,totalBets,multiplier\n'+
-data
-.map(r=>
-[
-r.time,
-r.players,
-r.totalBets,
-r.multiplier
-].join(',')
-)
-.join('\n'),
-
-'text/csv'
-
-);
-
-}
-
-
-function exportJSON(){
-
-dl(
-
-'crash-analyzer-backup.json',
-
-JSON.stringify(
-{
-app:'Crash Analyzer',
-version:1,
-data
-},
-null,
-2
-),
-
-'application/json'
-
-);
-
-}
-
-
-/* =========================================================
-   RESTAURATION JSON
-========================================================= */
-
-function restoreJSON(){
-
-let file=json.files[0];
-
-if(!file){
-
-return setStatus(
-'⚠️ Choisis un fichier JSON.'
-);
-
-}
-
-let r=new FileReader();
-
-r.onload=e=>{
-
-try{
-
-let x=JSON.parse(e.target.result);
-
-let v=
-(Array.isArray(x)?x:x.data)
-.filter(valid);
-
-if(!v.length)
-throw 0;
-
-data=v;
-
-save();
-
-setStatus(
-'✅ Sauvegarde restaurée.'
-);
-
-render();
-
-}catch(e){
-
-setStatus(
-'❌ Sauvegarde JSON invalide.'
-);
-
-}
-
-};
-
-r.readAsText(file);
-
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-function resetData(){
-
-if(
-confirm(
-'Réinitialiser aux 43 données originales ?'
-)
-){
-
-data=clone();
-
-save();
-
-render();
-
-}
-
-}
-
-
-function clearData(){
-
-if(
-confirm(
-'Supprimer toutes les données ?'
-)
-){
-
-data=[];
-
-save();
-
-render();
-
-}
-
-}
-
-
-/* =========================================================
-   STATISTIQUES
-========================================================= */
-
-function renderStats(){
-
-let v=data.map(
-r=>r.multiplier
-);
-
-dataCount.textContent=
-data.length;
-
-stats.innerHTML=`
-
-<div class=card>
-
-<small>Tours</small>
-
-<div class=value>
-${data.length}
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>Moyenne</small>
-
-<div class=value>
-${f(mean(v))}x
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>Médiane</small>
-
-<div class=value>
-${f(med(v))}x
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>Minimum</small>
-
-<div class=value>
-${v.length?f(Math.min(...v)):'—'}x
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>Maximum</small>
-
-<div class=value>
-${v.length?f(Math.max(...v)):'—'}x
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>Écart-type</small>
-
-<div class=value>
-${f(sd(v))}x
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-   DISTRIBUTION
-========================================================= */
-
-function renderDistribution(){
-
-let b=[
-
-['1.00–1.99x',1,1.99],
-
-['2.00–2.99x',2,2.99],
-
-['3.00–4.99x',3,4.99],
-
-['5.00–9.99x',5,9.99],
-
-['10x+',10,Infinity]
-
-];
-
-distribution.innerHTML=
-
-b.map(q=>{
-
-let n=data.filter(
-r=>
-r.multiplier>=q[1] &&
-r.multiplier<=q[2]
-).length;
-
-let p=
-data.length
-?n/data.length*100
-:0;
-
-return`
-
-<div class=range-head>
-
-<strong>${q[0]}</strong>
-
-<span>
-${n} · ${f(p)}%
-</span>
-
-</div>
-
-<div class=bar>
-
-<div
-class=fill
-style="width:${p}%"
-></div>
-
-</div>
-
-`;
-
-}).join('');
-
-}
-
-
-/* =========================================================
-   TENDANCES
-========================================================= */
-
-function longest(a,t){
-
-let m=0;
-let c=0;
-
-a.forEach(x=>
-
-t(x)
-
-?(c++,m=Math.max(m,c))
-:c=0
-
-);
-
-return m;
-
-}
-
-
-function renderTrends(){
-
-let v=data.map(
-r=>r.multiplier
-);
-
-trends.innerHTML=
-
-[5,10,20]
-.map(n=>{
-
-let a=v.slice(-n);
-
-return`
-
-<div class=card>
-
-<small>
-Moyenne ${n}
-</small>
-
-<div class=value>
-${f(mean(a))}x
-</div>
-
-<div class=muted>
-Médiane : ${f(med(a))}x
-</div>
-
-</div>
-
-`;
-
-}).join('')+
-
-`
-
-<div class=card>
-
-<small>
-Tours &lt;2x
-</small>
-
-<div class=value>
-${v.filter(x=>x<2).length}
-</div>
-
-<div class=muted>
-Plus longue série :
-${longest(v,x=>x<2)}
-</div>
-
-</div>
-
-
-<div class=card>
-
-<small>
-Tours ≥5x
-</small>
-
-<div class=value>
-${v.filter(x=>x>=5).length}
-</div>
-
-<div class=muted>
-Plus longue série :
-${longest(v,x=>x>=5)}
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-   GRAPHIQUE
-========================================================= */
-
-function renderChart(){
-
-let c=chart;
-
-let r=c.getBoundingClientRect();
-
-let w=Math.max(
-r.width,
-280
-);
-
-let h=300;
-
-let d=devicePixelRatio||1;
-
-c.width=w*d;
-
-c.height=h*d;
-
-let x=c.getContext('2d');
-
-x.scale(d,d);
-
-x.clearRect(
-0,
-0,
-w,
-h
-);
-
-let v=data
-.slice(-20)
-.map(r=>r.multiplier);
-
-if(!v.length)
-return;
-
-let max=Math.max(
-...v,
-10
-);
-
-let L=42;
-let R=15;
-let T=20;
-let B=35;
-
-let W=w-L-R;
-let H=h-T-B;
-
-x.strokeStyle='#26344d';
-
-for(
-let i=0;
-i<5;
-i++
-){
-
-let y=T+H*i/4;
-
-x.beginPath();
-
-x.moveTo(L,y);
-
-x.lineTo(w-R,y);
-
-x.stroke();
-
-}
-
-x.strokeStyle='#5d8cff';
-
-x.lineWidth=3;
-
-x.beginPath();
-
-v.forEach((q,i)=>{
-
-let px=
-L+
-W*i/
-Math.max(
-v.length-1,
-1
-);
-
-let py=
-T+
-H-
-(q/max)*H;
-
-i
-?x.lineTo(px,py)
-:x.moveTo(px,py);
-
-});
-
-x.stroke();
-
-x.fillStyle='#fff';
-
-v.forEach((q,i)=>{
-
-let px=
-L+
-W*i/
-Math.max(
-v.length-1,
-1
-);
-
-let py=
-T+
-H-
-(q/max)*H;
-
-x.beginPath();
-
-x.arc(
-px,
-py,
-4,
-0,
-7
-);
-
-x.fill();
-
-});
-
-}
-
-
-/* =========================================================
-   HISTORIQUE
-========================================================= */
-
-function renderHistory(){
-
-history.innerHTML=
-
-[...data]
-.reverse()
-.map((r,i)=>`
-
-<tr>
-
-<td>
-${data.length-i}
-</td>
-
-<td>
-${r.time}
-</td>
-
-<td>
-${(+r.players).toLocaleString('fr-FR')}
-</td>
-
-<td>
-${(+r.totalBets).toLocaleString(
-'fr-FR',
-{
-minimumFractionDigits:2
-}
-)}
-FCFA
-</td>
-
-<td>
-
-<strong>
-${f(r.multiplier)}x
-</strong>
-
-</td>
-
-</tr>
-
-`)
-.join('');
-
-}
-
-
-/* =========================================================
-   VARIABLES POUR LES MODÈLES
-========================================================= */
-
-function feat(a,i){
-
-if(i<5)
-return null;
-
-let s=a.slice(
-i-5,
-i
-);
-
-return[
-
-a[i-1],
-a[i-2],
-mean(s),
-med(s),
-sd(s)
-
-];
-
-}
-
-
-/* =========================================================
-   ALGÈBRE LINÉAIRE
-========================================================= */
-
-function trans(A){
-
-return A[0].map(
-(_,i)=>A.map(
-r=>r[i]
-)
-);
-
-}
-
-
-function mul(A,B){
-
-return A.map(r=>
-
-B[0].map(
-(_,j)=>
-B.reduce(
-(s,_,k)=>
-s+r[k]*B[k][j],
-0
-)
-
-)
-
-);
-
-}
-
-
-function inv(A){
-
-let n=A.length;
-
-let M=A.map(
-(r,i)=>[
-...r,
-...Array.from(
-{
-length:n
-},
-(_,j)=>
-i===j?1:0
-)
-]
-);
-
-for(
-let i=0;
-i<n;
-i++
-){
-
-let p=i;
-
-for(
-let r=i+1;
-r<n;
-r++
-)
-
-if(
-Math.abs(M[r][i])>
-Math.abs(M[p][i])
-)
-
-p=r;
-
-if(
-Math.abs(M[p][i])<
-1e-10
-)
-
-return null;
-
-[
-M[i],
-M[p]
-]=[
-M[p],
-M[i]
-];
-
-let q=M[i][i];
-
-for(
-let j=0;
-j<2*n;
-j++
-)
-
-M[i][j]/=q;
-
-for(
-let r=0;
-r<n;
-r++
-){
-
-if(r===i)
-continue;
-
-let z=M[r][i];
-
-for(
-let j=0;
-j<2*n;
-j++
-)
-
-M[r][j]-=z*M[i][j];
-
-}
-
-}
-
-return M.map(
-r=>r.slice(n)
-);
-
-}
-
-
-/* =========================================================
-   RÉGRESSION LINÉAIRE
-========================================================= */
-
-function lin(X,y){
-
-let A=
-X.map(
-r=>[1,...r]
-);
-
-let AT=
-trans(A);
-
-let ATA=
-mul(AT,A);
-
-for(
-let i=0;
-i<ATA.length;
-i++
-)
-
-ATA[i][i]+=.01;
-
-let I=inv(ATA);
-
-return I
-?mul(
-mul(I,AT),
-y.map(v=>[v])
-).map(r=>r[0])
-:null;
-
-}
-
-
-function lp(b,x){
-
-return Math.max(
-1,
-b[0]+
-x.reduce(
-(s,v,i)=>
-s+b[i+1]*v,
-0
-)
-);
-
-}
-
-
-/* =========================================================
-   ARBRE DE DÉCISION
-========================================================= */
-
-function sse(a){
-
-let m=
-mean(
-a.map(r=>r.y)
-);
-
-return a.reduce(
-(s,r)=>
-s+(r.y-m)**2,
-0
-);
-
-}
-
-
-function tree(a,d=0){
-
-if(
-d>=3 ||
-a.length<6
-)
-
-return{
-leaf:mean(
-a.map(r=>r.y)
-)
-};
-
-let best=null;
-
-for(
-let k=0;
-k<5;
-k++
-){
-
-let z=
-[...a]
-.sort(
-(u,v)=>u.x[k]-v.x[k]
-);
-
-for(
-let i=3;
-i<=z.length-3;
-i++
-){
-
-if(
-z[i-1].x[k]===
-z[i].x[k]
-)
-
-continue;
-
-let t=
-(
-z[i-1].x[k]+
-z[i].x[k]
-)/2;
-
-let l=
-z.slice(0,i);
-
-let r=
-z.slice(i);
-
-let sc=
-sse(l)+sse(r);
-
-if(
-!best ||
-sc<best.sc
-)
-
-best={
-k,
-t,
-l,
-r,
-sc
-};
-
-}
-
-}
-
-if(!best)
-
-return{
-leaf:mean(
-a.map(r=>r.y)
-)
-};
-
-return{
-
-k:best.k,
-
-t:best.t,
-
-l:tree(
-best.l,
-d+1
-),
-
-r:tree(
-best.r,
-d+1
-)
-
-};
-
-}
-
-
-function tp(n,x){
-
-return n.leaf!==undefined
-?n.leaf
-:x[n.k]<=n.t
-?tp(n.l,x)
-:tp(n.r,x);
-
-}
-
 
 /* =========================================================
    RANDOM FOREST
 ========================================================= */
 
-function rnd(seed){
+function randomForest(X,y){
 
-let s=seed>>>0;
+  if(!X.length) return null;
 
-return()=>(
-(
-s=
-s*1664525+
-1013904223
->>>0
-)/
-4294967296
-);
+  const trees=[];
 
+  const treeCount=35;
+
+  for(let t=0;t<treeCount;t++){
+
+    const sx=[];
+    const sy=[];
+
+    for(let i=0;i<X.length;i++){
+
+      const index=
+        Math.floor(Math.random()*X.length);
+
+      sx.push(X[index]);
+      sy.push(y[index]);
+    }
+
+    const tree=decisionTree(sx,sy);
+
+    if(tree){
+      trees.push(tree);
+    }
+  }
+
+  return {
+
+    predict(row){
+
+      if(!trees.length) return mean(y);
+
+      return mean(
+        trees.map(t=>t.predict(row))
+      );
+    }
+  };
 }
-
-
-function forest(X,y){
-
-let r=
-rnd(
-12345+X.length
-);
-
-let out=[];
-
-for(
-let t=0;
-t<25;
-t++
-){
-
-let a=[];
-
-for(
-let i=0;
-i<X.length;
-i++
-){
-
-let k=
-Math.floor(
-r()*X.length
-);
-
-a.push({
-x:X[k],
-y:y[k]
-});
-
-}
-
-out.push(
-tree(a)
-);
-
-}
-
-return out;
-
-}
-
-
-function fp(F,x){
-
-return Math.max(
-1,
-mean(
-F.map(
-t=>tp(t,x)
-)
-)
-);
-
-}
-
 
 /* =========================================================
-   ESTIMATION
+   CONSTRUCTION DES MODÈLES
 ========================================================= */
 
-function estimate(a){
+function buildModels(a){
 
-if(a.length<10)
-return null;
+  const X=[];
+  const y=[];
 
-let X=[];
-let y=[];
+  for(let i=5;i<a.length;i++){
 
-for(
-let i=5;
-i<a.length;
-i++
-){
+    const f=features(a,i);
 
-let q=
-feat(a,i);
+    if(f){
+      X.push(f);
+      y.push(a[i]);
+    }
+  }
 
-X.push(q);
-
-y.push(a[i]);
-
+  return {
+    linear:linearRegression(X,y),
+    tree:decisionTree(X,y),
+    forest:randomForest(X,y)
+  };
 }
 
-let test=
-feat(
-a,
-a.length
-);
+/* =========================================================
+   WALK-FORWARD
+========================================================= */
 
-let b=
-lin(X,y);
+function evaluateModels(){
 
-let tr=
-tree(
-X.map(
-(x,i)=>({
-x,
-y:y[i]
-})
-)
-);
+  const a=multipliers();
 
-let fo=
-forest(
-X,
-y
-);
+  if(a.length<12){
+    return null;
+  }
 
-return{
+  const names=[
+    "Régression linéaire",
+    "Arbre de décision",
+    "Random forest"
+  ];
 
-'Référence médiane':
-med(
-a.slice(-20)
-),
+  const results=names.map(name=>({
+    name,
+    errors:[],
+    squared:[]
+  }));
 
-'Moyenne récente':
-mean(
-a.slice(-10)
-),
+  let tests=0;
 
-'Régression linéaire':
-b
-?lp(b,test)
-:NaN,
+  for(let i=10;i<a.length;i++){
 
-'Arbre de décision':
-tp(tr,test),
+    const train=a.slice(0,i);
 
-'Forêt aléatoire':
-fp(fo,test)
+    const f=features(a,i);
 
-};
+    if(!f) continue;
 
+    const models=buildModels(train);
+
+    const predictions=[
+      models.linear?.predict(f),
+      models.tree?.predict(f),
+      models.forest?.predict(f)
+    ];
+
+    predictions.forEach((p,j)=>{
+
+      if(Number.isFinite(p)){
+
+        const error=p-a[i];
+
+        results[j].errors.push(Math.abs(error));
+        results[j].squared.push(error*error);
+      }
+
+    });
+
+    tests++;
+  }
+
+  return results.map(r=>{
+
+    const mae=mean(r.errors);
+
+    const rmse=
+      Math.sqrt(mean(r.squared));
+
+    const actual=a.slice(
+      Math.max(10,a.length-r.errors.length)
+    );
+
+    const actualMean=mean(actual);
+
+    const ssTot=actual.reduce(
+      (s,v)=>s+Math.pow(v-actualMean,2),
+      0
+    );
+
+    const ssRes=r.squared.reduce(
+      (s,v)=>s+v,
+      0
+    );
+
+    const r2=
+      ssTot>0
+      ? 1-(ssRes/ssTot)
+      : 0;
+
+    return {
+      name:r.name,
+      mae,
+      rmse,
+      r2,
+      tests
+    };
+  });
 }
 
+/* =========================================================
+   AFFICHAGE STATISTIQUES
+========================================================= */
+
+function updateStats(){
+
+  const a=multipliers();
+
+  document.getElementById("countText").textContent=a.length;
+  document.getElementById("statCount").textContent=a.length;
+
+  if(!a.length) return;
+
+  document.getElementById("statMean").textContent=
+    formatX(mean(a));
+
+  document.getElementById("statMedian").textContent=
+    formatX(median(a));
+
+  document.getElementById("statMin").textContent=
+    formatX(Math.min(...a));
+
+  document.getElementById("statMax").textContent=
+    formatX(Math.max(...a));
+
+  document.getElementById("statStd").textContent=
+    formatX(std(a));
+
+  updateDistribution(a);
+  updateTrends(a);
+}
+
+/* =========================================================
+   DISTRIBUTION
+========================================================= */
+
+function updateDistribution(a){
+
+  const ranges=[
+    ["1.00–1.99x",1,1.99],
+    ["2.00–2.99x",2,2.99],
+    ["3.00–4.99x",3,4.99],
+    ["5.00–9.99x",5,9.99],
+    ["10x+",10,Infinity]
+  ];
+
+  let html="";
+
+  ranges.forEach(r=>{
+
+    const count=a.filter(
+      x=>x>=r[1] && x<=r[2]
+    ).length;
+
+    const pct=
+      a.length
+      ? count/a.length*100
+      : 0;
+
+    html+=`
+      <div class="stat" style="margin:8px 0">
+        <strong>${r[0]}</strong>
+        ${count} / ${a.length}
+        — ${pct.toFixed(2)}%
+      </div>
+    `;
+  });
+
+  document.getElementById("distribution").innerHTML=html;
+}
+
+/* =========================================================
+   TENDANCES
+========================================================= */
+
+function updateTrends(a){
+
+  function block(n){
+
+    const x=a.slice(-n);
+
+    return `
+      <div class="stat">
+        <strong>${n} derniers</strong>
+        Moyenne : ${formatX(mean(x))}<br>
+        Médiane : ${formatX(median(x))}
+      </div>
+    `;
+  }
+
+  const under2=a.filter(x=>x<2).length;
+  const over5=a.filter(x=>x>=5).length;
+
+  document.getElementById("trends").innerHTML=`
+
+    <div class="grid">
+
+      ${block(5)}
+      ${block(10)}
+      ${block(20)}
+
+      <div class="stat">
+        <strong>&lt; 2x</strong>
+        ${under2} tours
+      </div>
+
+      <div class="stat">
+        <strong>≥ 5x</strong>
+        ${over5} tours
+      </div>
+
+    </div>
+  `;
+}
+
+/* =========================================================
+   COMPARAISON DES MODÈLES
+========================================================= */
+
+function updateModelComparison(){
+
+  const results=evaluateModels();
+
+  if(!results){
+
+    document.getElementById("modelComparison").innerHTML=
+      "Pas assez de données.";
+
+    return;
+  }
+
+  let html="";
+
+  results.forEach(r=>{
+
+    html+=`
+      <div class="result">
+        <h3>${r.name}</h3>
+
+        <div class="model">
+          <span>MAE</span>
+          <strong>${r.mae.toFixed(2)}x</strong>
+        </div>
+
+        <div class="model">
+          <span>RMSE</span>
+          <strong>${r.rmse.toFixed(2)}x</strong>
+        </div>
+
+        <div class="model">
+          <span>R²</span>
+          <strong>${r.r2.toFixed(2)}</strong>
+        </div>
+
+        <div class="model">
+          <span>Tests</span>
+          <strong>${r.tests}</strong>
+        </div>
+
+      </div>
+    `;
+  });
+
+  html+=`
+    <p>
+      <small>
+      Méthode : validation chronologique walk-forward avec fenêtre
+      d'entraînement croissante. Résultats exploratoires : ils ne permettent
+      pas de connaître avec certitude le prochain multiplicateur.
+      </small>
+    </p>
+  `;
+
+  document.getElementById("modelComparison").innerHTML=html;
+}
 
 /* =========================================================
    NOUVELLE PRÉDICTION
 ========================================================= */
 
-function parseNew(){
-
-return newMultipliers
-.value
-.split(/[\s,;]+/)
-.map(
-x=>+x.replace(',','.')
-)
-.filter(
-x=>
-Number.isFinite(x)&&
-x>0
-);
-
-}
-
-
 function runPrediction(){
 
-let n=
-parseNew();
+  const textarea=
+    document.getElementById("newMultipliers");
 
-if(!n.length){
+  const text=textarea.value.trim();
 
-predictionStatus.textContent=
-'⚠️ Entre au moins un multiplicateur valide.';
+  if(!text){
 
-return;
+    alert("Entre d'abord les nouveaux multiplicateurs.");
 
+    return;
+  }
+
+  /*
+    On accepte :
+    1.5
+    1.8
+    2.4
+
+    ou :
+
+    1.5, 1.8, 2.4
+  */
+
+  const values=text
+    .split(/[\s,;]+/)
+    .map(v=>Number(
+      v.replace(",",".")
+    ))
+    .filter(v=>Number.isFinite(v) && v>0);
+
+  if(!values.length){
+
+    alert("Aucun multiplicateur valide.");
+
+    return;
+  }
+
+  /*
+    ========================================================
+    IMPORTANT :
+
+    LES NOUVEAUX MULTIPLICATEURS SONT MAINTENANT
+    AUTOMATIQUEMENT AJOUTÉS À LA BASE HISTORIQUE.
+
+    Ils deviennent donc définitivement disponibles
+    pour les prochaines analyses et prédictions.
+    ========================================================
+  */
+
+  values.forEach(v=>{
+
+    data.push([
+      new Date().toLocaleTimeString(
+        "fr-FR",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      ),
+      0,
+      0,
+      v
+    ]);
+
+  });
+
+  /* Sauvegarde immédiate */
+  saveData();
+
+  /*
+    La séquence utilisée pour l'estimation contient
+    maintenant les nouveaux multiplicateurs.
+  */
+
+  const a=multipliers();
+
+  if(a.length<10){
+
+    document.getElementById("predictionResult").innerHTML=`
+      <div class="result">
+        <h3>✅ Données enregistrées</h3>
+        <p>
+          ${values.length} nouveau(x) multiplicateur(s) ont été ajoutés
+          à ta base historique.
+        </p>
+        <p>
+          Il faut au moins 10 observations pour calculer une estimation
+          expérimentale.
+        </p>
+      </div>
+    `;
+
+    refreshAll();
+
+    return;
+  }
+
+  const f=features(a,a.length);
+
+  const models=buildModels(a);
+
+  const estimates=[];
+
+  if(models.linear){
+
+    const p=models.linear.predict(f);
+
+    if(Number.isFinite(p)){
+      estimates.push({
+        name:"Régression linéaire",
+        value:p
+      });
+    }
+  }
+
+  if(models.tree){
+
+    const p=models.tree.predict(f);
+
+    if(Number.isFinite(p)){
+      estimates.push({
+        name:"Arbre de décision",
+        value:p
+      });
+    }
+  }
+
+  if(models.forest){
+
+    const p=models.forest.predict(f);
+
+    if(Number.isFinite(p)){
+      estimates.push({
+        name:"Random forest",
+        value:p
+      });
+    }
+  }
+
+  /*
+    Estimations historiques simples
+  */
+
+  const last10=a.slice(-10);
+  const last20=a.slice(-20);
+
+  estimates.push({
+    name:"Moyenne des 10 derniers",
+    value:mean(last10)
+  });
+
+  estimates.push({
+    name:"Médiane des 20 derniers",
+    value:median(last20)
+  });
+
+  /*
+    On limite l'affichage à des valeurs positives.
+  */
+
+  estimates.forEach(e=>{
+    e.value=Math.max(1,e.value);
+  });
+
+  const central=median(
+    estimates.map(e=>e.value)
+  );
+
+  let modelsHTML="";
+
+  estimates.forEach(e=>{
+
+    modelsHTML+=`
+      <div class="model">
+        <span>${e.name}</span>
+        <strong>${formatX(e.value)}</strong>
+      </div>
+    `;
+  });
+
+  document.getElementById("predictionResult").innerHTML=`
+
+    <div class="result">
+
+      <h3>✅ ${values.length} nouveau(x) tour(s) enregistré(s)</h3>
+
+      <p>
+        Ta base contient maintenant
+        <strong>${data.length} tours historiques</strong>.
+      </p>
+
+      <hr>
+
+      <small>Estimation centrale expérimentale</small>
+
+      <div class="big">
+        ${formatX(central)}
+      </div>
+
+      <p>
+        Cette valeur est la médiane des différentes estimations.
+      </p>
+
+      <hr>
+
+      <h3>Estimations des modèles</h3>
+
+      ${modelsHTML}
+
+      <p>
+        <small>
+        ⚠️ Cette estimation est statistique et expérimentale.
+        Elle ne signifie pas que le prochain résultat atteindra cette valeur.
+        Les résultats de Crash peuvent varier fortement et les tours passés
+        ne déterminent pas les tours futurs.
+        </small>
+      </p>
+
+    </div>
+  `;
+
+  /*
+    Mise à jour immédiate de toute l'application.
+  */
+
+  refreshAll();
 }
 
-
-/*
-Les nouveaux multiplicateurs sont utilisés
-comme observations récentes pour calculer
-l'estimation du tour suivant.
-*/
-
-let p=
-estimate(
-data
-.map(r=>r.multiplier)
-.concat(n)
-);
-
-if(!p){
-
-predictionStatus.textContent=
-'⚠️ Pas assez de données pour effectuer l’estimation.';
-
-return;
-
-}
-
-let vals=
-Object
-.values(p)
-.filter(Number.isFinite);
-
-let centre=
-med(vals);
-
-predictionStatus.textContent=
-`✅ ${n.length} nouveau(x) multiplicateur(s) pris en compte. Estimation du tour suivant cette série.`;
-
-predictionResults.innerHTML=`
-
-<div class="box prediction">
-
-<h3>
-🔮 Estimation centrale
-</h3>
-
-<div class="prediction-value">
-${f(centre)}x
-</div>
-
-<div class="muted">
-
-Les modèles donnent une plage d'estimations
-de ${f(Math.min(...vals))}x à ${f(Math.max(...vals))}x.
-
-</div>
-
-</div>
-
-`+
-
-Object
-.entries(p)
-.map(([k,v])=>`
-
-<div class="model">
-
-<div class="model-title">
-${k}
-</div>
-
-<div class="value">
-${f(v)}x
-</div>
-
-</div>
-
-`)
-.join('')+
-
-`
-
-<div class="warning">
-
-<strong>À retenir :</strong>
-
-<br><br>
-
-Cette estimation est expérimentale.
-Un prochain résultat peut être très différent
-des estimations affichées.
-
-</div>
-
-`;
-
-}
-
+/* =========================================================
+   EFFACER LA ZONE DE PRÉDICTION
+========================================================= */
 
 function clearPrediction(){
 
-newMultipliers.value='';
+  document.getElementById("newMultipliers").value="";
 
-predictionResults.innerHTML='';
-
-predictionStatus.textContent=
-'Entre les nouveaux multiplicateurs puis lance la prédiction.';
-
+  document.getElementById("predictionResult").innerHTML="";
 }
-
 
 /* =========================================================
-   ÉVALUATION HISTORIQUE
+   AJOUT D'UNE LIGNE COMPLÈTE
 ========================================================= */
 
-function evaluate(type){
+function addFullRow(){
 
-let a=[];
-let p=[];
+  const time=
+    document.getElementById("timeInput").value.trim();
 
-for(
-let i=10;
-i<data.length;
-i++
-){
+  const players=
+    Number(document.getElementById("playersInput").value);
 
-let s=
-data
-.slice(0,i)
-.map(
-r=>r.multiplier
-);
+  const bets=
+    Number(document.getElementById("betsInput").value);
 
-let X=[];
-let y=[];
+  const multiplier=
+    Number(document.getElementById("multiplierInput").value);
 
-for(
-let j=5;
-j<s.length;
-j++
-){
+  if(
+    !time ||
+    !Number.isFinite(players) ||
+    !Number.isFinite(bets) ||
+    !Number.isFinite(multiplier) ||
+    multiplier<=0
+  ){
 
-X.push(
-feat(s,j)
-);
+    alert("Remplis correctement tous les champs.");
 
-y.push(
-s[j]
-);
+    return;
+  }
 
+  data.push([
+    time,
+    players,
+    bets,
+    multiplier
+  ]);
+
+  saveData();
+
+  document.getElementById("timeInput").value="";
+  document.getElementById("playersInput").value="";
+  document.getElementById("betsInput").value="";
+  document.getElementById("multiplierInput").value="";
+
+  refreshAll();
+
+  alert("Tour ajouté à l'historique.");
 }
-
-let q=
-feat(
-s,
-s.length
-);
-
-let pr;
-
-try{
-
-if(type==='lin'){
-
-let b=
-lin(X,y);
-
-pr=
-lp(
-b,
-q
-);
-
-}
-
-else if(type==='tree'){
-
-pr=
-tp(
-tree(
-X.map(
-(x,k)=>({
-x,
-y:y[k]
-})
-)
-),
-q
-);
-
-}
-
-else if(type==='forest'){
-
-pr=
-fp(
-forest(X,y),
-q
-);
-
-}
-
-if(
-Number.isFinite(pr)
-){
-
-a.push(
-data[i].multiplier
-);
-
-p.push(pr);
-
-}
-
-}catch(e){}
-
-}
-
-let e=
-p.map(
-(q,i)=>q-a[i]
-);
-
-let mae=
-mean(
-e.map(
-Math.abs
-)
-);
-
-let rmse=
-Math.sqrt(
-mean(
-e.map(
-q=>q*q
-)
-)
-);
-
-let m=
-mean(a);
-
-let tot=
-a.reduce(
-(s,q)=>s+(q-m)**2,
-0
-);
-
-let res=
-a.reduce(
-(s,q,i)=>
-s+(q-p[i])**2,
-0
-);
-
-return{
-
-mae,
-
-rmse,
-
-r2:
-tot
-?1-res/tot
-:0,
-
-tests:a.length
-
-};
-
-}
-
 
 /* =========================================================
-   AFFICHAGE MODÈLES
+   TABLE HISTORIQUE
 ========================================================= */
 
-function renderModels(){
+function updateTable(){
 
-if(data.length<15){
+  const tbody=
+    document.getElementById("historyTable");
 
-models.innerHTML=
-'<div class=box>Pas assez de données.</div>';
+  tbody.innerHTML="";
 
-return;
+  for(let i=data.length-1;i>=0;i--){
 
+    const r=data[i];
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td>${i+1}</td>
+      <td>${r[0]}</td>
+      <td>${r[1] || "—"}</td>
+      <td>${r[2] ? Number(r[2]).toLocaleString("fr-FR") : "—"}</td>
+      <td><strong>${formatX(Number(r[3]))}</strong></td>
+    `;
+
+    tbody.appendChild(tr);
+  }
 }
-
-models.innerHTML=
-
-[
-
-['Régression linéaire','lin'],
-
-['Arbre de décision','tree'],
-
-['Forêt aléatoire','forest']
-
-]
-
-.map(x=>{
-
-let r=
-evaluate(x[1]);
-
-return`
-
-<div class=model>
-
-<div class=model-title>
-${x[0]}
-</div>
-
-<div class=metrics>
-
-<div class=metric>
-
-<small>
-MAE
-</small>
-
-<strong>
-${f(r.mae)}x
-</strong>
-
-</div>
-
-
-<div class=metric>
-
-<small>
-RMSE
-</small>
-
-<strong>
-${f(r.rmse)}x
-</strong>
-
-</div>
-
-
-<div class=metric>
-
-<small>
-R²
-</small>
-
-<strong>
-${f(r.r2)}
-</strong>
-
-</div>
-
-
-<div class=metric>
-
-<small>
-Tests
-</small>
-
-<strong>
-${r.tests}
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-})
-.join('');
-
-}
-
 
 /* =========================================================
-   RENDU GLOBAL
+   GRAPHIQUE
 ========================================================= */
 
-function render(){
+function drawChart(){
 
-renderStats();
+  const canvas=
+    document.getElementById("chart");
 
-renderDistribution();
+  const ctx=canvas.getContext("2d");
 
-renderTrends();
+  const w=canvas.width;
+  const h=canvas.height;
 
-renderChart();
+  ctx.clearRect(0,0,w,h);
 
-renderHistory();
+  const values=multipliers().slice(-20);
 
-renderModels();
+  if(!values.length) return;
 
-setStatus(
-`${data.length} données chargées.`
-);
+  const max=Math.max(...values,5);
 
+  const pad=40;
+
+  /*
+    Grille
+  */
+
+  ctx.strokeStyle="#334155";
+  ctx.lineWidth=1;
+
+  for(let i=0;i<=5;i++){
+
+    const y=
+      pad+(h-pad*2)*(i/5);
+
+    ctx.beginPath();
+    ctx.moveTo(pad,y);
+    ctx.lineTo(w-pad,y);
+    ctx.stroke();
+  }
+
+  /*
+    Courbe
+  */
+
+  ctx.strokeStyle="#60a5fa";
+  ctx.lineWidth=3;
+
+  ctx.beginPath();
+
+  values.forEach((v,i)=>{
+
+    const x=
+      pad+
+      (w-pad*2)*
+      (i/(Math.max(values.length-1,1)));
+
+    const y=
+      h-pad-
+      ((v/max)*(h-pad*2));
+
+    if(i===0){
+      ctx.moveTo(x,y);
+    }else{
+      ctx.lineTo(x,y);
+    }
+  });
+
+  ctx.stroke();
+
+  /*
+    Points
+  */
+
+  ctx.fillStyle="#93c5fd";
+
+  values.forEach((v,i)=>{
+
+    const x=
+      pad+
+      (w-pad*2)*
+      (i/(Math.max(values.length-1,1)));
+
+    const y=
+      h-pad-
+      ((v/max)*(h-pad*2));
+
+    ctx.beginPath();
+    ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.fill();
+  });
 }
 
+/* =========================================================
+   CSV EXPORT
+========================================================= */
 
-render();
+function exportCSV(){
 
-addEventListener(
-'resize',
-renderChart
-);
+  let csv=
+    "time,players,totalBets,multiplier\n";
+
+  data.forEach(r=>{
+
+    csv+=
+      `${r[0]},${r[1]},${r[2]},${r[3]}\n`;
+  });
+
+  downloadFile(
+    csv,
+    "crash-history.csv",
+    "text/csv"
+  );
+}
+
+/* =========================================================
+   CSV IMPORT
+========================================================= */
+
+function importCSV(){
+
+  const input=
+    document.getElementById("csvFile");
+
+  const file=input.files[0];
+
+  if(!file){
+
+    alert("Choisis d'abord un fichier CSV.");
+
+    return;
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+
+    const lines=
+      reader.result
+      .split(/\r?\n/)
+      .filter(x=>x.trim());
+
+    let added=0;
+
+    lines.forEach((line,index)=>{
+
+      if(index===0 &&
+         line.toLowerCase().includes("multiplier")){
+        return;
+      }
+
+      const parts=line.includes(";")
+        ? line.split(";")
+        : line.split(",");
+
+      if(parts.length<4) return;
+
+      const time=parts[0].trim();
+
+      const players=
+        Number(
+          parts[1].trim().replace(",",".")
+        );
+
+      const bets=
+        Number(
+          parts[2].trim().replace(",",".")
+        );
+
+      const multiplier=
+        Number(
+          parts[3].trim().replace(",",".")
+        );
+
+      if(
+        time &&
+        Number.isFinite(players) &&
+        Number.isFinite(bets) &&
+        Number.isFinite(multiplier)
+      ){
+
+        data.push([
+          time,
+          players,
+          bets,
+          multiplier
+        ]);
+
+        added++;
+      }
+    });
+
+    saveData();
+    refreshAll();
+
+    alert(
+      added+
+      " tour(s) ajouté(s) à la base historique."
+    );
+  };
+
+  reader.readAsText(file);
+}
+
+/* =========================================================
+   JSON EXPORT
+========================================================= */
+
+function exportJSON(){
+
+  downloadFile(
+    JSON.stringify(data,null,2),
+    "crash-history-backup.json",
+    "application/json"
+  );
+}
+
+/* =========================================================
+   JSON IMPORT
+========================================================= */
+
+function importJSON(){
+
+  const input=
+    document.getElementById("jsonFile");
+
+  const file=input.files[0];
+
+  if(!file){
+
+    alert("Choisis d'abord un fichier JSON.");
+
+    return;
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+
+    try{
+
+      const parsed=
+        JSON.parse(reader.result);
+
+      if(!Array.isArray(parsed)){
+        throw new Error();
+      }
+
+      const valid=parsed.filter(
+        r =>
+          Array.isArray(r) &&
+          r.length>=4 &&
+          Number.isFinite(Number(r[3]))
+      );
+
+      data=valid;
+
+      saveData();
+      refreshAll();
+
+      alert(
+        valid.length+
+        " tour(s) restauré(s)."
+      );
+
+    }catch(e){
+
+      alert("Fichier JSON invalide.");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+/* =========================================================
+   TÉLÉCHARGEMENT
+========================================================= */
+
+function downloadFile(content,name,type){
+
+  const blob=
+    new Blob(
+      [content],
+      {type}
+    );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+  a.download=name;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+/* =========================================================
+   RESET ORIGINAL
+========================================================= */
+
+function resetOriginalData(){
+
+  if(!confirm(
+    "Réinitialiser la base avec les 43 données originales ?"
+  )){
+    return;
+  }
+
+  data=
+    ORIGINAL_DATA.map(r=>[...r]);
+
+  saveData();
+
+  refreshAll();
+
+  clearPrediction();
+}
+
+/* =========================================================
+   EFFACER TOUT
+========================================================= */
+
+function clearAllData(){
+
+  if(!confirm(
+    "Supprimer définitivement toutes les données historiques de cette application ?"
+  )){
+    return;
+  }
+
+  data=[];
+
+  saveData();
+
+  refreshAll();
+
+  clearPrediction();
+}
+
+/* =========================================================
+   RAFRAÎCHISSEMENT GLOBAL
+========================================================= */
+
+function refreshAll(){
+
+  updateStats();
+  updateModelComparison();
+  updateTable();
+  drawChart();
+}
+
+/* =========================================================
+   LANCEMENT
+========================================================= */
+
+refreshAll();
 
 </script>
 
